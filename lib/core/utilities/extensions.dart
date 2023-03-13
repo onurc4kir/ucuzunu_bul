@@ -1,0 +1,87 @@
+import 'package:ucuzunu_bul/components/custom_shaped_button.dart';
+import 'package:flutter/material.dart';
+
+extension ContextExtension on BuildContext {
+  showSnackBarWithAction(
+      {required String message,
+      required String actionLabel,
+      required VoidCallback action}) {
+    return ScaffoldMessenger.of(this).showSnackBar(SnackBar(
+      content: Text(message),
+      action: SnackBarAction(
+        label: actionLabel,
+        onPressed: action,
+      ),
+    ));
+  }
+
+  showSnackBar({required String message}) {
+    return ScaffoldMessenger.of(this).showSnackBar(SnackBar(
+      content: Text(message),
+    ));
+  }
+
+  showSuccessSnackBar({
+    required String message,
+    Duration duration = const Duration(seconds: 2),
+  }) {
+    return ScaffoldMessenger.of(this).showSnackBar(SnackBar(
+      content: Text(message),
+      backgroundColor: Colors.green,
+      duration: duration,
+    ));
+  }
+
+  showErrorDialog({
+    String? title,
+    required String message,
+    VoidCallback? action,
+  }) {
+    return showDialog(
+      context: this,
+      builder: (context) => AlertDialog(
+        content: Text(message,
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        actions: [
+          CustomShapedButton(
+            type: ButtonType.danger,
+            onPressed: () {
+              if (action != null) {
+                action();
+              }
+              Navigator.pop(context);
+            },
+            text: "OK",
+          ),
+        ],
+      ),
+    );
+  }
+
+  showErrorSnackBar({
+    required String message,
+    Duration duration = const Duration(seconds: 2),
+  }) {
+    return ScaffoldMessenger.of(this).showSnackBar(SnackBar(
+      content: Text(message),
+      backgroundColor: Colors.red,
+      duration: duration,
+    ));
+  }
+
+  showLoadingIndicator() {
+    return showDialog(
+      context: this,
+      barrierDismissible: false,
+      builder: (context) => const Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
+  }
+
+  hideLoadingIndicator() {
+    if (Navigator.canPop(this)) {
+      return Navigator.pop(this);
+    }
+  }
+}
