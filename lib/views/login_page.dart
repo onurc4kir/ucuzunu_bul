@@ -60,7 +60,7 @@ class _LoginPageState extends State<LoginPage> {
                   validator: (m) =>
                       (m ?? "").isNotEmpty ? null : "Invalid email",
                   decoration: const InputDecoration(
-                    hintText: 'Username/Client Code',
+                    hintText: 'Mail',
                   ),
                 ),
               ),
