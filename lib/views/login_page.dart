@@ -5,7 +5,6 @@ import 'package:ucuzunu_bul/components/custom_scaffold.dart';
 import 'package:ucuzunu_bul/components/custom_shaped_button.dart';
 import 'package:ucuzunu_bul/controllers/auth_controller.dart';
 import 'package:ucuzunu_bul/views/forgot_password_page.dart';
-
 import '../components/logo_component.dart';
 
 class LoginPage extends StatefulWidget {
