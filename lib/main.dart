@@ -3,10 +3,17 @@ import 'package:get/route_manager.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:ucuzunu_bul/core/theme/app_theme.dart';
 import 'package:ucuzunu_bul/routes/router.dart';
-
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'root_binding.dart';
 
-main() {
+main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Supabase.initialize(
+    url: "https://pqerqhikadmusqtzfmoa.supabase.co",
+    anonKey:
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBxZXJxaGlrYWRtdXNxdHpmbW9hIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzEwMTExNjQsImV4cCI6MTk4NjU4NzE2NH0.mDLDAjNDmIuUaR8vj5kGmM7zq_Wmz4RLaA_GPG5FSEQ",
+  );
   runApp(const MainApp());
 }
 
