@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 abstract class IColors {
-  static const primary = Color(0xff3BB1E4);
+  static const primary = Color(0xffF0C217);
   static const secondary = Color(0xff6E759F);
   static const success = Color(0xff57CA22);
   static const error = Color(0xffFF1943);
