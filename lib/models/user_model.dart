@@ -27,7 +27,7 @@ class User {
   DateTime? createdAt;
   DateTime? updatedAt;
 
-  factory User.fromJson(Map<String, dynamic> json) => User(
+  factory User.fromMap(Map<String, dynamic> json) => User(
         id: json["id"],
         username: json["username"],
         email: json["email"],
@@ -42,7 +42,7 @@ class User {
         updatedAt: DateTime.parse(json["updatedAt"]),
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toMap() => {
         "id": id,
         "username": username,
         "email": email,
