@@ -63,8 +63,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   onSaved: (name) {
                     _username = name;
                   },
-                  decoration:
-                      const InputDecoration(labelText: 'Username/Client Code'),
+                  decoration: const InputDecoration(labelText: 'Mail'),
                   validator: (value) =>
                       value!.isEmpty ? "Required Field" : null,
                 ),

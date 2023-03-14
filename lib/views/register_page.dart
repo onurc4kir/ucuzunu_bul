@@ -4,19 +4,18 @@ import 'package:ucuzunu_bul/components/custom_input_area.dart';
 import 'package:ucuzunu_bul/components/custom_scaffold.dart';
 import 'package:ucuzunu_bul/components/custom_shaped_button.dart';
 import 'package:ucuzunu_bul/controllers/auth_controller.dart';
-import 'package:ucuzunu_bul/views/forgot_password_page.dart';
-import 'package:ucuzunu_bul/views/register_page.dart';
+import 'package:ucuzunu_bul/core/utilities/dialog_helper.dart';
 import '../components/logo_component.dart';
 
-class LoginPage extends StatefulWidget {
-  static const route = "/login";
-  const LoginPage({Key? key}) : super(key: key);
+class RegisterPage extends StatefulWidget {
+  static const route = "/register";
+  const RegisterPage({Key? key}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
   late final GlobalKey<FormState> _formKey;
   String? mail;
   String? password;
@@ -27,9 +26,6 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     _formKey = GlobalKey<FormState>();
-    Get.find<AuthController>().currentUser().then((value) {
-      if (value != null) {}
-    });
     super.initState();
   }
 
@@ -44,8 +40,16 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              const SizedBox(height: 32),
               const LogoContainer(),
               const SizedBox(height: 16),
+              Text(
+                "Register For The Cheapest Offers",
+                style: context.textTheme.bodyLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
+              ),
               CustomInputArea(
                 inputFieldPadding: EdgeInsets.zero,
                 prefixWidgets: const [
@@ -115,9 +119,19 @@ class _LoginPageState extends State<LoginPage> {
                     _formKey.currentState!.save();
 
                     await Get.find<AuthController>()
-                        .login(mail!, password!)
+                        .registerWithMailAndPassword(
+                      mail: mail!,
+                      password: password!,
+                    )
                         .then((value) {
-                      if (value != null) {}
+                      if (value != null) {
+                        DialogHelper.showCustomDialog(
+                          context: context,
+                          icon: const Icon(Icons.mail),
+                          description:
+                              "We sent a mail to $mail. Please confirm your mail.",
+                        );
+                      }
                     });
 
                     setState(() {
@@ -125,20 +139,7 @@ class _LoginPageState extends State<LoginPage> {
                     });
                   }
                 },
-                text: "Login",
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  TextButton(
-                    onPressed: () => Get.toNamed(RegisterPage.route),
-                    child: const Text("Create A New Account"),
-                  ),
-                  TextButton(
-                    onPressed: () => Get.toNamed(ForgotPasswordPage.route),
-                    child: const Text("Forgot Password?"),
-                  ),
-                ],
+                text: "Create An Account",
               ),
             ],
           ),

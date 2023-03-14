@@ -3,6 +3,7 @@ import 'package:get/route_manager.dart';
 import 'package:ucuzunu_bul/views/forgot_password_page.dart';
 import 'package:ucuzunu_bul/views/login_page.dart';
 import 'package:ucuzunu_bul/views/onboard_page.dart';
+import 'package:ucuzunu_bul/views/register_page.dart';
 
 abstract class GetPages {
   static const String initialRoute = OnboardPage.route;
@@ -20,6 +21,10 @@ abstract class GetPages {
     GetPage(
       name: ForgotPasswordPage.route,
       page: () => const ForgotPasswordPage(),
+    ),
+    GetPage(
+      name: RegisterPage.route,
+      page: () => const RegisterPage(),
     ),
   ];
 }
