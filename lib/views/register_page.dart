@@ -41,6 +41,10 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              Text(
+                "Register For The Cheapest Offers",
+                style: context.textTheme.headlineMedium,
+              ),
               const LogoContainer(),
               const SizedBox(height: 16),
               CustomInputArea(
