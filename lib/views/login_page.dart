@@ -5,6 +5,7 @@ import 'package:ucuzunu_bul/components/custom_scaffold.dart';
 import 'package:ucuzunu_bul/components/custom_shaped_button.dart';
 import 'package:ucuzunu_bul/controllers/auth_controller.dart';
 import 'package:ucuzunu_bul/views/forgot_password_page.dart';
+import 'package:ucuzunu_bul/views/register_page.dart';
 import '../components/logo_component.dart';
 
 class LoginPage extends StatefulWidget {
@@ -126,12 +127,18 @@ class _LoginPageState extends State<LoginPage> {
                 },
                 text: "Login",
               ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: TextButton(
-                  onPressed: () => Get.toNamed(ForgotPasswordPage.route),
-                  child: const Text("Forgot Password?"),
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextButton(
+                    onPressed: () => Get.toNamed(RegisterPage.route),
+                    child: const Text("Create A New Account"),
+                  ),
+                  TextButton(
+                    onPressed: () => Get.toNamed(ForgotPasswordPage.route),
+                    child: const Text("Forgot Password?"),
+                  ),
+                ],
               ),
             ],
           ),

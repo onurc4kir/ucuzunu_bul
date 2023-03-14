@@ -5,18 +5,17 @@ import 'package:ucuzunu_bul/components/custom_scaffold.dart';
 import 'package:ucuzunu_bul/components/custom_shaped_button.dart';
 import 'package:ucuzunu_bul/controllers/auth_controller.dart';
 import 'package:ucuzunu_bul/core/utilities/dialog_helper.dart';
-import 'package:ucuzunu_bul/views/forgot_password_page.dart';
 import '../components/logo_component.dart';
 
-class LoginPage extends StatefulWidget {
+class RegisterPage extends StatefulWidget {
   static const route = "/register";
-  const LoginPage({Key? key}) : super(key: key);
+  const RegisterPage({Key? key}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
   late final GlobalKey<FormState> _formKey;
   String? mail;
   String? password;
@@ -41,12 +40,16 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                "Register For The Cheapest Offers",
-                style: context.textTheme.headlineMedium,
-              ),
+              const SizedBox(height: 32),
               const LogoContainer(),
               const SizedBox(height: 16),
+              Text(
+                "Register For The Cheapest Offers",
+                style: context.textTheme.bodyLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
+              ),
               CustomInputArea(
                 inputFieldPadding: EdgeInsets.zero,
                 prefixWidgets: const [
@@ -136,14 +139,7 @@ class _LoginPageState extends State<LoginPage> {
                     });
                   }
                 },
-                text: "Login",
-              ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: TextButton(
-                  onPressed: () => Get.toNamed(ForgotPasswordPage.route),
-                  child: const Text("Forgot Password?"),
-                ),
+                text: "Create An Account",
               ),
             ],
           ),
