@@ -3,8 +3,10 @@ import 'package:ucuzunu_bul/core/utilities/dialog_helper.dart';
 import 'package:ucuzunu_bul/models/user_model.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:ucuzunu_bul/core/utilities/extensions.dart';
+import 'package:ucuzunu_bul/services/supabase_auth_service.dart';
 
 class AuthController extends GetxController {
+  late final SupabaseAuthService _authService = Get.find<SupabaseAuthService>();
   final Rx<User?> _user = Rx(null);
   User? get user => _user.value;
 
@@ -15,7 +17,7 @@ class AuthController extends GetxController {
   Future<User?> currentUser() async {
     try {
       Get.context?.loaderOverlay.show();
-      return null;
+      final supaUser = _authService.currentUser();
     } catch (e) {
       Get.context?.loaderOverlay.hide();
 

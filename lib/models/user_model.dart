@@ -1,59 +1,63 @@
 class User {
+  String? id;
+  String? name;
+  String? mail;
+  String? imageUrl;
+  String? phone;
+  int? point;
+  String? role;
+
   User({
     this.id,
-    this.username,
-    this.email,
-    this.firstName,
-    this.lastName,
+    this.name,
+    this.mail,
+    this.imageUrl,
     this.phone,
-    this.address,
-    this.city,
-    this.country,
-    this.postalCode,
-    this.createdAt,
-    this.updatedAt,
+    this.point,
+    this.role,
   });
 
-  int? id;
-  String? username;
-  String? email;
-  String? firstName;
-  String? lastName;
-  String? phone;
-  String? address;
-  String? city;
-  String? country;
-  String? postalCode;
-  DateTime? createdAt;
-  DateTime? updatedAt;
-
-  factory User.fromMap(Map<String, dynamic> json) => User(
-        id: json["id"],
-        username: json["username"],
-        email: json["email"],
-        firstName: json["firstName"],
-        lastName: json["lastName"],
-        phone: json["phone"],
-        address: json["address"],
-        city: json["city"],
-        country: json["country"],
-        postalCode: json["postalCode"],
-        createdAt: DateTime.parse(json["createdAt"]),
-        updatedAt: DateTime.parse(json["updatedAt"]),
-      );
+  // generate from map method
+  factory User.fromMap(Map<String, dynamic> map) {
+    return User(
+      id: map['id'],
+      name: map['name'],
+      mail: map['mail'],
+      imageUrl: map['image_url'],
+      phone: map['phone'],
+      point: map['point'],
+      role: map['role'],
+    );
+  }
 
   Map<String, dynamic> toMap() => {
-        "id": id,
-        "username": username,
-        "email": email,
-        "firstName": firstName,
-        "lastName": lastName,
-        "phone": phone,
-        "address": address,
-        "city": city,
-        "country": country,
-        "postalCode": postalCode,
-        "createdAt": createdAt!.toIso8601String(),
-        "updatedAt": updatedAt!.toIso8601String(),
+        'id': id,
+        'name': name,
+        'mail': mail,
+        'image_url': imageUrl,
+        'phone': phone,
+        'point': point,
+        'role': role,
       };
+
+  //copyWith method
+  User copyWith({
+    String? id,
+    String? name,
+    String? mail,
+    String? imageUrl,
+    String? phone,
+    int? point,
+    String? role,
+  }) {
+    return User(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      mail: mail ?? this.mail,
+      imageUrl: imageUrl ?? this.imageUrl,
+      phone: phone ?? this.phone,
+      point: point ?? this.point,
+      role: role ?? this.role,
+    );
+  }
 }
