@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ucuzunu_bul/components/logo_component.dart';
 import 'package:ucuzunu_bul/controllers/auth_controller.dart';
+import 'package:ucuzunu_bul/views/home_page.dart';
 import 'package:ucuzunu_bul/views/login_page.dart';
 import '../../../components/custom_scaffold.dart';
 
@@ -19,7 +20,7 @@ class _OnboardPageState extends State<OnboardPage> {
   void initState() {
     Get.find<AuthController>().currentUser().then((value) {
       if (value != null) {
-        Get.toNamed(LoginPage.route);
+        Get.toNamed(HomePage.route);
       } else {
         Get.toNamed(LoginPage.route);
       }

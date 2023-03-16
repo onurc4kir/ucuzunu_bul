@@ -26,14 +26,16 @@ final ThemeData appThemeData = ThemeData(
       letterSpacing: 2,
     ),
     centerTitle: true,
-    iconTheme: IconThemeData(
-      color: Colors.white,
-    ),
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(
         bottom: Radius.circular(32),
       ),
     ),
+  ),
+  bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+    selectedItemColor: IColors.primary,
+    unselectedItemColor: Colors.grey,
+    elevation: 10,
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(

@@ -130,7 +130,9 @@ class _RegisterPageState extends State<RegisterPage> {
                           icon: const Icon(Icons.mail),
                           description:
                               "We sent a mail to $mail. Please confirm your mail.",
-                        );
+                          okButtonText: "OK",
+                          okButtonOnTap: () => Get.back(),
+                        ).then((value) => Get.back());
                       }
                     });
 

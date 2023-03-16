@@ -19,7 +19,7 @@ class SupabaseDatabaseService {
           .maybeSingle();
 
       if (data != null) {
-        //printInfo(info: "SupabaseDatabaseService GetProfile: $data");
+        printInfo(info: "SupabaseDatabaseService GetProfile: $data");
         return User.fromMap(data);
       } else {
         return null;
