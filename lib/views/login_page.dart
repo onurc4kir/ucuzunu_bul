@@ -5,6 +5,7 @@ import 'package:ucuzunu_bul/components/custom_scaffold.dart';
 import 'package:ucuzunu_bul/components/custom_shaped_button.dart';
 import 'package:ucuzunu_bul/controllers/auth_controller.dart';
 import 'package:ucuzunu_bul/views/forgot_password_page.dart';
+import 'package:ucuzunu_bul/views/home_page.dart';
 import 'package:ucuzunu_bul/views/register_page.dart';
 import '../components/logo_component.dart';
 
@@ -117,7 +118,9 @@ class _LoginPageState extends State<LoginPage> {
                     await Get.find<AuthController>()
                         .login(mail!, password!)
                         .then((value) {
-                      if (value != null) {}
+                      if (value != null) {
+                        Get.offAllNamed(HomePage.route);
+                      }
                     });
 
                     setState(() {

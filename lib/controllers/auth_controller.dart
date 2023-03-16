@@ -22,6 +22,7 @@ class AuthController extends GetxController {
     try {
       Get.context?.loaderOverlay.show();
       final supaUser = _authService.currentUser();
+      print(supaUser?.id);
 
       if (supaUser != null) {
         _user.value = await _dbService.getProfile(id: supaUser.id);
@@ -91,7 +92,6 @@ class AuthController extends GetxController {
       Get.context?.loaderOverlay.show();
       return await _authService.signUpWithMailAndPassword(
           mail: mail, password: password);
-  
     } catch (e) {
       Get.context?.showErrorDialog(message: "Error: $e");
     } finally {

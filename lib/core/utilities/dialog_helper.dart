@@ -32,8 +32,8 @@ class DialogHelper {
   static Future<dynamic> showCustomDialog({
     required BuildContext context,
     required Widget icon,
-    String title = "Bilgi",
-    String description = "TAMAM",
+    String title = "INFO",
+    String description = "OK",
     Widget? extraContent,
     String? okButtonText,
     String? cancelButtonText,
