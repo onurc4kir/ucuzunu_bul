@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:get/get.dart';
 import 'package:ucuzunu_bul/components/custom_scaffold.dart';
 import 'package:ucuzunu_bul/controllers/home_controller.dart';
@@ -15,7 +16,15 @@ class HomePage extends StatelessWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         backgroundColor: IColors.primary,
-        onPressed: () {},
+        onPressed: () async {
+          try {
+            final barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+                '#ff6666', 'Cancel', true, ScanMode.QR);
+            print(barcodeScanRes);
+          } catch (e) {
+            print(e);
+          }
+        },
         tooltip: 'Scan a product',
         elevation: 2.0,
         child: const Icon(
