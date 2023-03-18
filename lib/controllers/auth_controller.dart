@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import 'dart:io';
+
 import 'package:get/get.dart';
 import 'package:ucuzunu_bul/core/utilities/dialog_helper.dart';
 import 'package:ucuzunu_bul/models/user_model.dart';
@@ -6,9 +7,12 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:ucuzunu_bul/core/utilities/extensions.dart';
 import 'package:ucuzunu_bul/services/supabase_auth_service.dart';
 import 'package:ucuzunu_bul/services/supabase_database_service.dart';
+import 'package:ucuzunu_bul/services/supabase_storage_service.dart';
 
 class AuthController extends GetxController {
   late final SupabaseAuthService _authService = Get.find<SupabaseAuthService>();
+  late final SupabaseStorageService _storageService =
+      Get.find<SupabaseStorageService>();
   late final SupabaseDatabaseService _dbService =
       Get.find<SupabaseDatabaseService>();
   final Rx<User?> _user = Rx(null);
@@ -92,6 +96,33 @@ class AuthController extends GetxController {
       Get.context?.loaderOverlay.show();
       return await _authService.signUpWithMailAndPassword(
           mail: mail, password: password);
+    } catch (e) {
+      Get.context?.showErrorDialog(message: "Error: $e");
+    } finally {
+      Get.context?.loaderOverlay.hide();
+    }
+  }
+
+  Future<void> updateProfile() async {
+    try {
+      Get.context?.loaderOverlay.show();
+      await _dbService.updateProfile(_user.value!);
+    } catch (e) {
+      Get.context?.showErrorDialog(message: "Error: $e");
+    } finally {
+      Get.context?.loaderOverlay.hide();
+    }
+  }
+
+  Future<void> updateProfileImage(File file) async {
+    try {
+      Get.context?.loaderOverlay.show();
+      final url = await _storageService.uploadPublicProfilesFile(
+        filePath: file.path,
+        urlPath: _user.value!.id,
+      );
+      _user.value!.imageUrl = url;
+      await _dbService.updateProfile(_user.value!);
     } catch (e) {
       Get.context?.showErrorDialog(message: "Error: $e");
     } finally {

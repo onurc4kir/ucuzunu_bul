@@ -1,5 +1,5 @@
 class User {
-  String? id;
+  String id;
   String? name;
   String? mail;
   String? imageUrl;
@@ -8,7 +8,7 @@ class User {
   String? role;
 
   User({
-    this.id,
+    required this.id,
     this.name,
     this.mail,
     this.imageUrl,
