@@ -21,7 +21,6 @@ class SupabaseDatabaseService {
           .maybeSingle();
 
       if (data != null) {
-        printInfo(info: "SupabaseDatabaseService GetProfile: $data");
         return User.fromMap(data);
       } else {
         return null;
@@ -96,7 +95,6 @@ class SupabaseDatabaseService {
         .eq('is_popular', true)
         .order('created_at', ascending: false)
         .limit(10);
-    printInfo(info: "SupabaseDatabaseService GetPopularBrands: $data");
     if (data != null) {
       printInfo(info: "SupabaseDatabaseService GetPopularBrands: $data");
       return data.map((e) => StoreModel.fromMap(e)).toList().cast<StoreModel>();
@@ -114,6 +112,24 @@ class SupabaseDatabaseService {
         .limit(10);
     if (data != null) {
       printInfo(info: "SupabaseDatabaseService GetPopularBrands: $data");
+      return data
+          .map((e) => ProductModel.fromMap(e))
+          .toList()
+          .cast<ProductModel>();
+    } else {
+      return [];
+    }
+  }
+
+  Future<List<ProductModel>> searchProductByNameOrBarcode(
+      String searchText) async {
+    final data = await _database
+        .from(DatabaseContants.productsTable)
+        .select()
+        .or("name.ilike.%$searchText%,barcode.ilike.%$searchText%)")
+        .limit(30);
+
+    if (data != null) {
       return data
           .map((e) => ProductModel.fromMap(e))
           .toList()

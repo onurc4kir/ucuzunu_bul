@@ -2,6 +2,7 @@ import 'package:get/instance_manager.dart';
 import 'package:get/route_manager.dart';
 import 'package:ucuzunu_bul/controllers/home_controller.dart';
 import 'package:ucuzunu_bul/controllers/home_explore_controller.dart';
+import 'package:ucuzunu_bul/controllers/search_controller.dart';
 import 'package:ucuzunu_bul/views/edit_profile_page.dart';
 import 'package:ucuzunu_bul/views/forgot_password_page.dart';
 import 'package:ucuzunu_bul/views/home_page.dart';
@@ -45,6 +46,7 @@ abstract class GetPages {
         binding: BindingsBuilder(() {
           Get.put(HomeController());
           Get.put(HomeExploreController());
+          Get.put(SearchController());
         })),
   ];
 }
