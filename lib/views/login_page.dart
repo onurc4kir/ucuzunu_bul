@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ucuzunu_bul/components/custom_input_area.dart';
@@ -57,7 +58,7 @@ class _LoginPageState extends State<LoginPage> {
                 ],
                 textField: TextFormField(
                   readOnly: isLoading,
-                  initialValue: null,
+                  initialValue: kDebugMode ? "onurrckrr@gmail.com" : null,
                   onSaved: (m) => mail = m,
                   validator: (m) =>
                       (m ?? "").isNotEmpty ? null : "Invalid email",
@@ -95,7 +96,7 @@ class _LoginPageState extends State<LoginPage> {
                 textField: TextFormField(
                   readOnly: isLoading,
                   obscureText: obscurePassword,
-                  initialValue: null,
+                  initialValue: kDebugMode ? "12345678" : null,
                   onSaved: (pass) => password = pass,
                   validator: (p) => (p?.length ?? 0) >= 7
                       ? null
