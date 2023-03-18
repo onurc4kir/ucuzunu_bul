@@ -3,10 +3,11 @@ import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:get/get.dart';
 import 'package:ucuzunu_bul/components/custom_scaffold.dart';
 import 'package:ucuzunu_bul/controllers/home_controller.dart';
+import 'package:ucuzunu_bul/controllers/search_controller.dart';
 import 'package:ucuzunu_bul/core/theme/colors.style.dart';
 import 'package:ucuzunu_bul/core/utilities/extensions.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends GetView<HomeController> {
   static const route = '/';
   const HomePage({super.key});
 
@@ -19,13 +20,17 @@ class HomePage extends StatelessWidget {
         backgroundColor: IColors.primary,
         onPressed: () async {
           try {
-            final barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+            await FlutterBarcodeScanner.scanBarcode(
               '#ff6666',
               'Cancel',
               true,
               ScanMode.QR,
-            );
-            print(barcodeScanRes);
+            ).then((value) {
+              if (value.isNotEmpty) {
+                controller.changeTab(HomePageTabs.search);
+                Get.find<SearchController>().searchText = value;
+              }
+            });
           } catch (e) {
             Get.context?.showErrorSnackBar(message: "Error: $e");
           }
