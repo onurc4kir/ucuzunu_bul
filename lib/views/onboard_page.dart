@@ -20,9 +20,9 @@ class _OnboardPageState extends State<OnboardPage> {
   void initState() {
     Get.find<AuthController>().currentUser().then((value) {
       if (value != null) {
-        Get.toNamed(HomePage.route);
+        Get.offAllNamed(HomePage.route);
       } else {
-        Get.toNamed(LoginPage.route);
+        Get.offAllNamed(LoginPage.route);
       }
     });
 
