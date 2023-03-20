@@ -60,7 +60,7 @@ class HomeTab extends GetView<HomeExploreController> {
                 children: [
                   CachedNetworkImage(
                     imageUrl: store.imageUrl,
-                    fit: BoxFit.cover,
+                    fit: BoxFit.contain,
                   ),
                   Positioned(
                     bottom: 0.0,
