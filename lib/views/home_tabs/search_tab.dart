@@ -70,8 +70,9 @@ class _SearchTabState extends State<SearchTab> {
         }
 
         if (controller.searchText.isNotEmpty && controller.products.isEmpty) {
-          return const Center(
-            child: Text("No product found"),
+          return Center(
+            child: SelectableText(
+                "No product found with this: ${controller.searchText}"),
           );
         }
         return GridView.builder(
