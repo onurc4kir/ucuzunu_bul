@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:ucuzunu_bul/components/custom_scaffold.dart';
 import 'package:ucuzunu_bul/controllers/auth_controller.dart';
 import 'package:ucuzunu_bul/views/edit_profile_page.dart';
+import 'package:ucuzunu_bul/views/login_page.dart';
 import 'package:ucuzunu_bul/views/support_page.dart';
 
 import '../../components/custom_avatar_container.dart';
@@ -61,7 +62,9 @@ class ProfileTab extends GetView<AuthController> {
                       context: context,
                       icon: const Icon(Icons.logout),
                       title: "Çıkış Yap",
-                      onTap: () => Get.find<AuthController>().logout(),
+                      onTap: () => Get.find<AuthController>().logout().then(
+                            (value) => Get.offAllNamed(LoginPage.route),
+                          ),
                     ),
                   ],
                 ),

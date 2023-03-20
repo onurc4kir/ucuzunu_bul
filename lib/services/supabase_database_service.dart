@@ -3,6 +3,7 @@ import 'package:get/get_utils/get_utils.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as supa;
 import 'package:ucuzunu_bul/core/utilities/app_constants.dart';
 import 'package:ucuzunu_bul/models/product_model.dart';
+import 'package:ucuzunu_bul/models/reward_model.dart';
 import 'package:ucuzunu_bul/models/store_model.dart';
 
 import '../models/user_model.dart';
@@ -134,6 +135,25 @@ class SupabaseDatabaseService {
           .map((e) => ProductModel.fromMap(e))
           .toList()
           .cast<ProductModel>();
+    } else {
+      return [];
+    }
+  }
+
+  Future<List<RewardModel>> getRewardsWithPagination(
+      {required int offset, required int limit}) async {
+    final start = offset * limit;
+    final data = await _database
+        .from(DatabaseContants.rewardsTable)
+        .select()
+        .range(start, start + limit)
+        .order("created_at");
+    print(data);
+    if (data != null) {
+      return data
+          .map((e) => RewardModel.fromMap(e))
+          .toList()
+          .cast<RewardModel>();
     } else {
       return [];
     }

@@ -38,14 +38,16 @@ class _SearchTabState extends State<SearchTab> {
       body: Column(
         children: [
           CustomInputArea(
-            textField: TextFormField(
-              initialValue: controller.searchText,
-              decoration: const InputDecoration(
-                hintText: "Search by product name or barcode",
+            textField: Obx(
+              () => TextFormField(
+                initialValue: controller.searchText,
+                decoration: const InputDecoration(
+                  hintText: "Search by product name or barcode",
+                ),
+                onChanged: (search) {
+                  searchWithThrottle(search);
+                },
               ),
-              onChanged: (search) {
-                searchWithThrottle(search);
-              },
             ),
           ),
           _buildSearchResult(),
