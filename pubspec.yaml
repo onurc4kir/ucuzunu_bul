@@ -18,6 +18,8 @@ dependencies:
   cached_network_image: ^3.2.3
   loader_overlay: ^2.1.0
   flutter_barcode_scanner: ^2.0.0
+  image_picker: ^0.8.7
+  flutter_email_sender: ^5.1.0
 
 dev_dependencies:
   flutter_test:

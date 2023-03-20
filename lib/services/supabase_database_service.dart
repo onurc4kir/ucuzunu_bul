@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:get/get_utils/get_utils.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as supa;
 import 'package:ucuzunu_bul/core/utilities/app_constants.dart';
+import 'package:ucuzunu_bul/models/product_model.dart';
+import 'package:ucuzunu_bul/models/store_model.dart';
 
 import '../models/user_model.dart';
 
@@ -19,7 +21,6 @@ class SupabaseDatabaseService {
           .maybeSingle();
 
       if (data != null) {
-        printInfo(info: "SupabaseDatabaseService GetProfile: $data");
         return User.fromMap(data);
       } else {
         return null;
@@ -72,38 +73,6 @@ class SupabaseDatabaseService {
     }
   }
 
-  Future<void> removeVehicle({
-    required String vehicleId,
-    required String driverId,
-  }) async {
-    try {
-      await _database
-          .from(DatabaseContants.vehiclesTable)
-          .delete()
-          .eq('id', vehicleId)
-          .eq('driver_id', driverId);
-    } catch (e) {
-      printError(info: "SupabaseDatabaseService RemoveVehicle Error: $e");
-      rethrow;
-    }
-  }
-
-  Future<void> changeDriverOnlineStatus(
-      {required bool isOnline, required String id}) async {
-    try {
-      await _database
-          .from(DatabaseContants.profilesTable)
-          .update({'is_online': isOnline}).eq(
-        'id',
-        id,
-      );
-    } catch (e) {
-      printError(
-          info: "SupabaseDatabaseService ChangeDriverOnlineStatus Error: $e");
-      rethrow;
-    }
-  }
-
   Future<void> disableAccount({required String id}) async {
     try {
       await _database
@@ -118,12 +87,55 @@ class SupabaseDatabaseService {
     }
   }
 
-  // Stream listenUserBalance({required String userId}) {
-  //   return _database.from(DatabaseContants.userWalletTable).stream(
-  //     primaryKey: ['id'],
-  //   ).eq(
-  //     "id",
-  //     userId,
-  //   );
-  // }
+  Future<List<StoreModel>> getPopularBrands() async {
+    final data = await _database
+        .from(DatabaseContants.storesTable)
+        .select()
+        .eq('is_active', true)
+        .eq('is_popular', true)
+        .order('created_at', ascending: false)
+        .limit(10);
+    if (data != null) {
+      printInfo(info: "SupabaseDatabaseService GetPopularBrands: $data");
+      return data.map((e) => StoreModel.fromMap(e)).toList().cast<StoreModel>();
+    } else {
+      return [];
+    }
+  }
+
+  Future<List<ProductModel>> getFeaturedProducts() async {
+    final data = await _database
+        .from(DatabaseContants.productsTable)
+        .select()
+        .eq('is_featured', true)
+        .order('created_at', ascending: false)
+        .limit(10);
+    if (data != null) {
+      printInfo(info: "SupabaseDatabaseService GetPopularBrands: $data");
+      return data
+          .map((e) => ProductModel.fromMap(e))
+          .toList()
+          .cast<ProductModel>();
+    } else {
+      return [];
+    }
+  }
+
+  Future<List<ProductModel>> searchProductByNameOrBarcode(
+      String searchText) async {
+    final data = await _database
+        .from(DatabaseContants.productsTable)
+        .select()
+        .or("name.ilike.%$searchText%,barcode.ilike.%$searchText%)")
+        .limit(30);
+
+    if (data != null) {
+      return data
+          .map((e) => ProductModel.fromMap(e))
+          .toList()
+          .cast<ProductModel>();
+    } else {
+      return [];
+    }
+  }
 }
