@@ -26,8 +26,10 @@ class ProductModel {
         imageUrl: json["image_url"],
         barcode: json["barcode"],
         createdAt: json["created_at"],
-        prices: json["price"] is List
-            ? (json["price"] as List).map((e) => PriceModel.fromMap(e)).toList()
+        prices: json["prices"] is List
+            ? (json["prices"] as List)
+                .map((e) => PriceModel.fromMap(e))
+                .toList()
             : [],
       );
 

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:get/get.dart';
 import 'package:ucuzunu_bul/components/custom_input_area.dart';
 import 'package:ucuzunu_bul/components/custom_scaffold.dart';
@@ -38,15 +39,41 @@ class _SearchTabState extends State<SearchTab> {
       body: Column(
         children: [
           CustomInputArea(
+            inputFieldPadding: EdgeInsets.zero,
             textField: Obx(
-              () => TextFormField(
-                initialValue: controller.searchText,
-                decoration: const InputDecoration(
-                  hintText: "Search by product name or barcode",
-                ),
-                onChanged: (search) {
-                  searchWithThrottle(search);
-                },
+              () => Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      initialValue: controller.searchText,
+                      decoration: const InputDecoration(
+                        hintText: "Search by product name or barcode",
+                      ),
+                      onChanged: (search) {
+                        searchWithThrottle(search);
+                      },
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () async {
+                      try {
+                        await FlutterBarcodeScanner.scanBarcode(
+                          '#ff6666',
+                          'Cancel',
+                          true,
+                          ScanMode.BARCODE,
+                        ).then((value) {
+                          if (value.isNotEmpty) {
+                            Get.find<SearchController>().searchText = value;
+                          }
+                        });
+                      } catch (e) {
+                        printError(info: e.toString());
+                      }
+                    },
+                    icon: const Icon(Icons.barcode_reader),
+                  ),
+                ],
               ),
             ),
           ),
@@ -139,8 +166,7 @@ class _SearchTabState extends State<SearchTab> {
 
   Widget _buildOldSearches() {
     return const Center(
-      child: Text(
-          "Old Searches Will Implement Later Will shown when search bar is empty"),
+      child: SizedBox(),
     );
   }
 }

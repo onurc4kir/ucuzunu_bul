@@ -2,6 +2,7 @@ import 'package:get/instance_manager.dart';
 import 'package:get/route_manager.dart';
 import 'package:ucuzunu_bul/controllers/home_controller.dart';
 import 'package:ucuzunu_bul/controllers/home_explore_controller.dart';
+import 'package:ucuzunu_bul/controllers/product_controller.dart';
 import 'package:ucuzunu_bul/controllers/rewards_controller.dart';
 import 'package:ucuzunu_bul/controllers/search_controller.dart';
 import 'package:ucuzunu_bul/views/edit_profile_page.dart';
@@ -45,6 +46,7 @@ abstract class GetPages {
       name: HomePage.route,
       page: () => const HomePage(),
       binding: BindingsBuilder(() {
+        Get.put(ProductController());
         Get.put(RewardsController());
         Get.put(HomeController());
         Get.put(HomeExploreController());

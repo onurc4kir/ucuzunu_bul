@@ -42,14 +42,14 @@ class RewardsTab extends GetView<RewardsController> {
           } else {
             final item = controller.items[index];
 
-            return _buildRewardItem(item);
+            return _buildRewardItem(item, context);
           }
         },
       );
     });
   }
 
-  Widget _buildRewardItem(RewardModel item) {
+  Widget _buildRewardItem(RewardModel item, BuildContext context) {
     return Container(
       clipBehavior: Clip.hardEdge,
       margin: const EdgeInsets.all(8),
@@ -89,19 +89,51 @@ class RewardsTab extends GetView<RewardsController> {
                 ),
               ),
               padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text(
-                    item.name,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 14.0,
-                      letterSpacing: 4,
-                      fontWeight: FontWeight.w300,
+                  Flexible(
+                    child: Text(
+                      item.name,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 14.0,
+                        letterSpacing: 4,
+                        fontWeight: FontWeight.w300,
+                      ),
                     ),
                   ),
+                  const Spacer(),
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (c) {
+                            return AlertDialog(
+                              title: const Text("Buy Gift Card"),
+                              content: const Text(
+                                  "Are you sure you want to buy this gift with your points?"),
+                              actions: [
+                                TextButton(
+                                    onPressed: () {
+                                      Get.back();
+                                    },
+                                    child: const Text("No")),
+                                TextButton(
+                                    onPressed: () {
+                                      //TODO: Buy gift card
+                                    },
+                                    child: const Text("Yes")),
+                              ],
+                            );
+                          });
+                    },
+                    icon: const Icon(Icons.shopping_cart),
+                    label: Text(
+                      item.price.toString(),
+                    ),
+                  )
                 ],
               ),
             ),

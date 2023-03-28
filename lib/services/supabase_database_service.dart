@@ -107,7 +107,12 @@ class SupabaseDatabaseService {
   Future<List<ProductModel>> getFeaturedProducts() async {
     final data = await _database
         .from(DatabaseContants.productsTable)
-        .select()
+        .select("""*,prices(
+        id,
+        price,
+        store_id,
+        branch_id
+        )""")
         .eq('is_featured', true)
         .order('created_at', ascending: false)
         .limit(10);
@@ -148,7 +153,6 @@ class SupabaseDatabaseService {
         .select()
         .range(start, start + limit)
         .order("created_at");
-    print(data);
     if (data != null) {
       return data
           .map((e) => RewardModel.fromMap(e))
@@ -157,5 +161,24 @@ class SupabaseDatabaseService {
     } else {
       return [];
     }
+  }
+
+ Future<ProductModel> getProductById(String id) async {
+  return await _database
+      .from(DatabaseContants.productsTable)
+      .select()
+      .eq('id', id)
+      .single()
+      .then((value) => ProductModel.fromMap(value));
+
+ }
+
+  Future<ProductModel> getProductByBarcode(id) async {
+    return await _database
+        .from(DatabaseContants.productsTable)
+        .select()
+        .eq('barcode', id)
+        .single()
+        .then((value) => ProductModel.fromMap(value));
   }
 }

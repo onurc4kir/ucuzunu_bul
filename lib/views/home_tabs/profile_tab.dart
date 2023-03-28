@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ucuzunu_bul/components/custom_scaffold.dart';
+import 'package:ucuzunu_bul/components/user_coins_container.dart';
 import 'package:ucuzunu_bul/controllers/auth_controller.dart';
 import 'package:ucuzunu_bul/views/edit_profile_page.dart';
 import 'package:ucuzunu_bul/views/login_page.dart';
@@ -31,6 +32,11 @@ class ProfileTab extends GetView<AuthController> {
                     await controller.updateProfileImage(file);
                   },
                 ),
+                const SizedBox(height: 16),
+                UserCoinsContainer(
+                    coinAmount:
+                        Get.find<AuthController>().user?.point?.toString() ??
+                            "0"),
                 const SizedBox(height: 16),
                 Text(
                   controller.user?.name ?? "",

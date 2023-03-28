@@ -21,7 +21,7 @@ class BranchModel {
         adress: json["adress"],
         imageUrl: json["image_url"],
         storeId: json["storeId"],
-        createdAt: json["createdAt"],
+        createdAt: json["created_at"],
       );
 
   Map<String, dynamic> toMap() => {

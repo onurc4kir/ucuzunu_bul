@@ -2,26 +2,26 @@ class PriceModel {
   PriceModel({
     required this.id,
     required this.price,
-    required this.productId,
-    required this.storeId,
-    required this.branchId,
-    required this.createdAt,
+    this.productId,
+    this.storeId,
+    this.branchId,
+    this.createdAt,
   });
 
   final String id;
   final double price;
-  final String productId;
-  final String storeId;
-  final String branchId;
-  final String createdAt;
+  final String? productId;
+  final String? storeId;
+  final String? branchId;
+  final String? createdAt;
 
   factory PriceModel.fromMap(Map<String, dynamic> json) => PriceModel(
         id: json["id"],
-        price: json["price"],
+        price: json["price"] + .0,
         productId: json["product_id"],
         storeId: json["store_id"],
         branchId: json["branch_id"],
-        createdAt: json["createdAt"],
+        createdAt: json["created_at"],
       );
 
   Map<String, dynamic> toMap() => {
