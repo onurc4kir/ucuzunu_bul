@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ucuzunu_bul/components/custom_scaffold.dart';
+import 'package:ucuzunu_bul/controllers/auth_controller.dart';
 import 'package:ucuzunu_bul/controllers/rewards_controller.dart';
 import 'package:ucuzunu_bul/models/reward_model.dart';
 
@@ -42,14 +43,14 @@ class RewardsTab extends GetView<RewardsController> {
           } else {
             final item = controller.items[index];
 
-            return _buildRewardItem(item);
+            return _buildRewardItem(item, context);
           }
         },
       );
     });
   }
 
-  Widget _buildRewardItem(RewardModel item) {
+  Widget _buildRewardItem(RewardModel item, BuildContext context) {
     return Container(
       clipBehavior: Clip.hardEdge,
       margin: const EdgeInsets.all(8),
@@ -68,7 +69,7 @@ class RewardsTab extends GetView<RewardsController> {
       child: Stack(
         children: [
           CachedNetworkImage(
-            imageUrl: item.imageUrl,
+            imageUrl: item.imageUrl!,
             fit: BoxFit.contain,
           ),
           Positioned(
@@ -89,19 +90,84 @@ class RewardsTab extends GetView<RewardsController> {
                 ),
               ),
               padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text(
-                    item.name,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 14.0,
-                      letterSpacing: 4,
-                      fontWeight: FontWeight.w300,
+                  Flexible(
+                    child: Text(
+                      item.name,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 14.0,
+                        letterSpacing: 4,
+                        fontWeight: FontWeight.w300,
+                      ),
                     ),
                   ),
+                  const Spacer(),
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (c) {
+                            return AlertDialog(
+                              title: const Text("Buy Gift Card"),
+                              content: const Text(
+                                  "Are you sure you want to buy this gift with your points?"),
+                              actions: [
+                                TextButton(
+                                    onPressed: () {
+                                      Get.back();
+                                    },
+                                    child: const Text("No")),
+                                TextButton(
+                                    onPressed: () async {
+                                      if ((Get.find<AuthController>()
+                                                  .user
+                                                  ?.point ??
+                                              0) <
+                                          (item.price)) {
+                                        Get.back();
+                                        Get.snackbar(
+                                          'Error',
+                                          'You don\'t have enough points',
+                                          backgroundColor: Colors.red,
+                                          colorText: Colors.white,
+                                        );
+                                        return;
+                                      }
+                                      try {
+                                        await controller.buyReward(item.id);
+                                        Get.back();
+                                        Get.snackbar(
+                                          'Success',
+                                          'You will get your reward soon, check purchase history',
+                                          backgroundColor: Colors.green,
+                                          colorText: Colors.white,
+                                        );
+                                      } catch (e) {
+                                        printError(
+                                            info:
+                                                "RewardsController BuyReward Error: $e");
+                                        Get.snackbar(
+                                          'Error',
+                                          'Something went wrong, please try again later',
+                                          backgroundColor: Colors.red,
+                                          colorText: Colors.white,
+                                        );
+                                      }
+                                    },
+                                    child: const Text("Yes")),
+                              ],
+                            );
+                          });
+                    },
+                    icon: const Icon(Icons.shopping_cart),
+                    label: Text(
+                      item.price.toString(),
+                    ),
+                  )
                 ],
               ),
             ),

@@ -9,6 +9,7 @@ abstract class IColors {
   static const warning = Color(0xffFFA319);
 
   static const accent = Color(0xffF75010);
+  static const orangeAccent = Color(0xffEA9916);
   static const redAccent = error;
   static const blueAccent = Color(0xff205072);
 

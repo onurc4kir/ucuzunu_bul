@@ -53,11 +53,14 @@ class CustomScaffold extends StatelessWidget {
                   child: CustomBackButton(),
                 ),
               if (title != null)
-                Text(
-                  title!,
-                  style: const TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
+                Padding(
+                  padding: const EdgeInsets.only(top: 4.0, bottom: 8),
+                  child: Text(
+                    title!,
+                    style: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               const Spacer(),

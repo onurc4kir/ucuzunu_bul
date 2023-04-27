@@ -26,8 +26,10 @@ class ProductModel {
         imageUrl: json["image_url"],
         barcode: json["barcode"],
         createdAt: json["created_at"],
-        prices: json["price"] is List
-            ? (json["price"] as List).map((e) => PriceModel.fromMap(e)).toList()
+        prices: json["prices"] is List
+            ? (json["prices"] as List)
+                .map((e) => PriceModel.fromMap(e))
+                .toList()
             : [],
       );
 
@@ -40,7 +42,13 @@ class ProductModel {
         "created_at": createdAt,
       };
 
-  double get price => prices.isNotEmpty ? prices.first.price : 0.0;
+  PriceModel? get minPriceModel {
+    if (prices.isNotEmpty) {
+      prices.sort((a, b) => a.price.compareTo(b.price));
+      return prices.first;
+    }
+    return null;
+  }
 
-  String get priceText => "${price.toStringAsFixed(2)} ₺";
+  String get minPriceText => "${minPriceModel?.price.toStringAsFixed(2)} ₺";
 }

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ucuzunu_bul/components/custom_scaffold.dart';
+import 'package:ucuzunu_bul/components/user_coins_container.dart';
 import 'package:ucuzunu_bul/controllers/auth_controller.dart';
 import 'package:ucuzunu_bul/views/edit_profile_page.dart';
 import 'package:ucuzunu_bul/views/login_page.dart';
+import 'package:ucuzunu_bul/views/purchase_history_page.dart';
 import 'package:ucuzunu_bul/views/support_page.dart';
 
 import '../../components/custom_avatar_container.dart';
@@ -32,6 +34,11 @@ class ProfileTab extends GetView<AuthController> {
                   },
                 ),
                 const SizedBox(height: 16),
+                UserCoinsContainer(
+                    coinAmount:
+                        Get.find<AuthController>().user?.point?.toString() ??
+                            "0"),
+                const SizedBox(height: 16),
                 Text(
                   controller.user?.name ?? "",
                   style: Theme.of(context).textTheme.bodyLarge,
@@ -51,6 +58,12 @@ class ProfileTab extends GetView<AuthController> {
                       icon: const Icon(Icons.person),
                       title: "Profile Settings",
                       onTap: () => Get.toNamed(EditProfilePage.route),
+                    ),
+                    _buildListItem(
+                      context: context,
+                      icon: const Icon(Icons.shopping_bag),
+                      title: "Purchase History",
+                      onTap: () => Get.toNamed(PurchaseHistoryPage.route),
                     ),
                     _buildListItem(
                       context: context,

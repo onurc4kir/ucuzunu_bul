@@ -3,6 +3,7 @@ import 'package:get/get_utils/get_utils.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as supa;
 import 'package:ucuzunu_bul/core/utilities/app_constants.dart';
 import 'package:ucuzunu_bul/models/product_model.dart';
+import 'package:ucuzunu_bul/models/puchase_model.dart';
 import 'package:ucuzunu_bul/models/reward_model.dart';
 import 'package:ucuzunu_bul/models/store_model.dart';
 
@@ -97,7 +98,6 @@ class SupabaseDatabaseService {
         .order('created_at', ascending: false)
         .limit(10);
     if (data != null) {
-      printInfo(info: "SupabaseDatabaseService GetPopularBrands: $data");
       return data.map((e) => StoreModel.fromMap(e)).toList().cast<StoreModel>();
     } else {
       return [];
@@ -107,12 +107,16 @@ class SupabaseDatabaseService {
   Future<List<ProductModel>> getFeaturedProducts() async {
     final data = await _database
         .from(DatabaseContants.productsTable)
-        .select()
+        .select("""*,prices(
+        id,
+        price,
+        store_id,
+        branch_id
+        )""")
         .eq('is_featured', true)
         .order('created_at', ascending: false)
         .limit(10);
     if (data != null) {
-      printInfo(info: "SupabaseDatabaseService GetPopularBrands: $data");
       return data
           .map((e) => ProductModel.fromMap(e))
           .toList()
@@ -148,7 +152,6 @@ class SupabaseDatabaseService {
         .select()
         .range(start, start + limit)
         .order("created_at");
-    print(data);
     if (data != null) {
       return data
           .map((e) => RewardModel.fromMap(e))
@@ -156,6 +159,76 @@ class SupabaseDatabaseService {
           .cast<RewardModel>();
     } else {
       return [];
+    }
+  }
+
+  Future<ProductModel> getProductById(
+    String id, {
+    bool includePrices = false,
+    bool includeBranches = false,
+    bool includeStore = false,
+  }) async {
+    const branchQuery = """branches(
+        id,
+        name,
+        latitude,
+        longitude
+        )""";
+    const storeQuery = """stores(
+        id,
+        name
+        )""";
+    final priceQuery = """prices(
+        id,
+        price
+        ${includeBranches ? ',$branchQuery' : ''}
+        ${includeStore ? ',$storeQuery' : ''}
+        )""";
+
+    final data = await _database.from(DatabaseContants.productsTable).select("""
+          *
+          ${includePrices ? ',$priceQuery' : ''}
+          """).eq('id', id).single();
+    return ProductModel.fromMap(data);
+  }
+
+  Future<ProductModel> getProductByBarcode(id) async {
+    return await _database
+        .from(DatabaseContants.productsTable)
+        .select()
+        .eq('barcode', id)
+        .single()
+        .then((value) => ProductModel.fromMap(value));
+  }
+
+  Future<void> buyReward({
+    required String userId,
+    required String rewardId,
+  }) async {
+    return await _database.from(DatabaseContants.purchaseTable).insert({
+      'user_id': userId,
+      'reward_id': rewardId,
+    });
+  }
+
+  Future<List<PurchaseModel>> getPurchases({required String userId}) async {
+    try {
+      final data = await _database
+          .from(DatabaseContants.purchaseTable)
+          .select("*,rewards(id,name,desc,price)")
+          .eq('user_id', userId);
+
+      if (data != null) {
+        return data
+            .map((e) => PurchaseModel.fromMap(e))
+            .toList()
+            .cast<PurchaseModel>();
+      } else {
+        return [];
+      }
+    } catch (e) {
+      printError(info: "SupabaseDatabaseService GetPurchases Error: $e");
+      rethrow;
     }
   }
 }

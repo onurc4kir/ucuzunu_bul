@@ -1,27 +1,36 @@
+import 'package:ucuzunu_bul/models/branch_model.dart';
+import 'package:ucuzunu_bul/models/store_model.dart';
+
 class PriceModel {
   PriceModel({
     required this.id,
     required this.price,
-    required this.productId,
-    required this.storeId,
-    required this.branchId,
-    required this.createdAt,
+    this.productId,
+    this.storeId,
+    this.branchId,
+    this.branch,
+    this.store,
+    this.createdAt,
   });
 
   final String id;
   final double price;
-  final String productId;
-  final String storeId;
-  final String branchId;
-  final String createdAt;
+  final String? productId;
+  final String? storeId;
+  final String? branchId;
+  final String? createdAt;
+  final BranchModel? branch;
+  final StoreModel? store;
 
   factory PriceModel.fromMap(Map<String, dynamic> json) => PriceModel(
         id: json["id"],
-        price: json["price"],
+        price: json["price"] + .0,
         productId: json["product_id"],
         storeId: json["store_id"],
         branchId: json["branch_id"],
-        createdAt: json["createdAt"],
+        store: json['stores'] != null ? StoreModel.fromMap(json['stores']) : null,
+        branch: json['branches'] != null ? BranchModel.fromMap(json['branches']) : null,
+        createdAt: json["created_at"],
       );
 
   Map<String, dynamic> toMap() => {
@@ -32,4 +41,5 @@ class PriceModel {
         "branch_id": branchId,
         "created_at": createdAt,
       };
+  String get priceText => "${price.toStringAsFixed(2)} ₺";
 }

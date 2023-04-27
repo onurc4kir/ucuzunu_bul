@@ -24,11 +24,14 @@ class HomePage extends GetView<HomeController> {
               '#ff6666',
               'Cancel',
               true,
-              ScanMode.QR,
+              ScanMode.BARCODE,
             ).then((value) {
               if (value.isNotEmpty) {
-                controller.changeTab(HomePageTabs.search);
-                Get.find<SearchController>().searchText = value;
+                //TODO: Open Add Product Page
+                
+
+
+
               }
             });
           } catch (e) {
