@@ -12,8 +12,8 @@ class UserCoinsContainer extends StatelessWidget {
     return GestureDetector(
       onTap: () => {},
       child: Container(
-        width: 90,
-        padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 8),
+        width: 140,
+        padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 1),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(24),
           border: Border.all(

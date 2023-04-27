@@ -1,3 +1,5 @@
+import 'package:ucuzunu_bul/models/reward_model.dart';
+
 class PurchaseModel {
   final String id;
   final String? rewardId;
@@ -5,6 +7,7 @@ class PurchaseModel {
   final String? code;
   final bool? status;
   final DateTime? createdAt;
+  final RewardModel? reward;
 
   PurchaseModel({
     required this.id,
@@ -13,6 +16,7 @@ class PurchaseModel {
     this.code,
     this.status,
     this.createdAt,
+    this.reward,
   });
 
   factory PurchaseModel.fromMap(Map<String, dynamic> json) => PurchaseModel(
@@ -22,15 +26,13 @@ class PurchaseModel {
         code: json["code"],
         status: json["status"],
         createdAt: DateTime.tryParse(json["created_at"] ?? ""),
+        reward: json['rewards'] != null
+            ? RewardModel.fromMap(json['rewards'])
+            : null,
       );
 
   Map<String, dynamic> toMap() => {
-        "id": id,
         "rewardId": rewardId,
         "userId": userId,
-        "code": code,
-        "status": status,
-        "created_at": createdAt,
       };
-  
 }

@@ -2,20 +2,20 @@ class RewardModel {
   RewardModel({
     required this.id,
     required this.name,
-    required this.desc,
-    required this.imageUrl,
     required this.price,
-    required this.isActive,
-    required this.createdAt,
+    this.desc,
+    this.imageUrl,
+    this.isActive,
+    this.createdAt,
   });
 
   final String id;
   final String name;
-  final String desc;
-  final String imageUrl;
+  final String? desc;
+  final String? imageUrl;
   final int price;
-  final bool isActive;
-  final String createdAt;
+  final bool? isActive;
+  final String? createdAt;
 
   factory RewardModel.fromMap(Map<String, dynamic> json) => RewardModel(
         id: json["id"],

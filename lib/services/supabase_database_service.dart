@@ -3,6 +3,7 @@ import 'package:get/get_utils/get_utils.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as supa;
 import 'package:ucuzunu_bul/core/utilities/app_constants.dart';
 import 'package:ucuzunu_bul/models/product_model.dart';
+import 'package:ucuzunu_bul/models/puchase_model.dart';
 import 'package:ucuzunu_bul/models/reward_model.dart';
 import 'package:ucuzunu_bul/models/store_model.dart';
 
@@ -188,7 +189,6 @@ class SupabaseDatabaseService {
           *
           ${includePrices ? ',$priceQuery' : ''}
           """).eq('id', id).single();
-    print(data);
     return ProductModel.fromMap(data);
   }
 
@@ -199,5 +199,36 @@ class SupabaseDatabaseService {
         .eq('barcode', id)
         .single()
         .then((value) => ProductModel.fromMap(value));
+  }
+
+  Future<void> buyReward({
+    required String userId,
+    required String rewardId,
+  }) async {
+    return await _database.from(DatabaseContants.purchaseTable).insert({
+      'user_id': userId,
+      'reward_id': rewardId,
+    });
+  }
+
+  Future<List<PurchaseModel>> getPurchases({required String userId}) async {
+    try {
+      final data = await _database
+          .from(DatabaseContants.purchaseTable)
+          .select("*,rewards(id,name,desc,price)")
+          .eq('user_id', userId);
+
+      if (data != null) {
+        return data
+            .map((e) => PurchaseModel.fromMap(e))
+            .toList()
+            .cast<PurchaseModel>();
+      } else {
+        return [];
+      }
+    } catch (e) {
+      printError(info: "SupabaseDatabaseService GetPurchases Error: $e");
+      rethrow;
+    }
   }
 }

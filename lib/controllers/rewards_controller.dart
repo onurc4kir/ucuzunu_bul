@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ucuzunu_bul/controllers/auth_controller.dart';
+import 'package:ucuzunu_bul/models/puchase_model.dart';
 import 'package:ucuzunu_bul/models/reward_model.dart';
 import 'package:ucuzunu_bul/services/supabase_database_service.dart';
 
 class RewardsController extends GetxController {
   late final SupabaseDatabaseService _dbService =
       Get.find<SupabaseDatabaseService>();
+  late final AuthController _authController = Get.find<AuthController>();
 
   final RxBool _isLoading = false.obs;
   bool get isLoading => _isLoading.value;
@@ -55,4 +58,16 @@ class RewardsController extends GetxController {
     offset += 1;
     _isLoading.value = false;
   }
-}
+
+  Future<void> buyReward(String rewardId) async {
+    return await _dbService.buyReward(
+      rewardId: rewardId,
+      userId: _authController.user!.id,
+    );
+  }
+  Future<List<PurchaseModel>> getPurchases() async {
+    return await _dbService.getPurchases(
+      userId: _authController.user!.id,
+    );
+  }
+ }

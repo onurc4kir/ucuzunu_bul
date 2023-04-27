@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ucuzunu_bul/components/custom_scaffold.dart';
+import 'package:ucuzunu_bul/controllers/auth_controller.dart';
 import 'package:ucuzunu_bul/controllers/rewards_controller.dart';
 import 'package:ucuzunu_bul/models/reward_model.dart';
 
@@ -68,7 +69,7 @@ class RewardsTab extends GetView<RewardsController> {
       child: Stack(
         children: [
           CachedNetworkImage(
-            imageUrl: item.imageUrl,
+            imageUrl: item.imageUrl!,
             fit: BoxFit.contain,
           ),
           Positioned(
@@ -121,8 +122,41 @@ class RewardsTab extends GetView<RewardsController> {
                                     },
                                     child: const Text("No")),
                                 TextButton(
-                                    onPressed: () {
-                                      //TODO: Buy gift card
+                                    onPressed: () async {
+                                      if ((Get.find<AuthController>()
+                                                  .user
+                                                  ?.point ??
+                                              0) <
+                                          (item.price)) {
+                                        Get.back();
+                                        Get.snackbar(
+                                          'Error',
+                                          'You don\'t have enough points',
+                                          backgroundColor: Colors.red,
+                                          colorText: Colors.white,
+                                        );
+                                        return;
+                                      }
+                                      try {
+                                        await controller.buyReward(item.id);
+                                        Get.back();
+                                        Get.snackbar(
+                                          'Success',
+                                          'You will get your reward soon, check purchase history',
+                                          backgroundColor: Colors.green,
+                                          colorText: Colors.white,
+                                        );
+                                      } catch (e) {
+                                        printError(
+                                            info:
+                                                "RewardsController BuyReward Error: $e");
+                                        Get.snackbar(
+                                          'Error',
+                                          'Something went wrong, please try again later',
+                                          backgroundColor: Colors.red,
+                                          colorText: Colors.white,
+                                        );
+                                      }
                                     },
                                     child: const Text("Yes")),
                               ],
