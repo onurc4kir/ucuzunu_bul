@@ -10,6 +10,8 @@ import 'package:ucuzunu_bul/views/forgot_password_page.dart';
 import 'package:ucuzunu_bul/views/home_page.dart';
 import 'package:ucuzunu_bul/views/login_page.dart';
 import 'package:ucuzunu_bul/views/onboard_page.dart';
+import 'package:ucuzunu_bul/views/product_detail_page.dart';
+import 'package:ucuzunu_bul/views/purchase_history_page.dart';
 import 'package:ucuzunu_bul/views/register_page.dart';
 import 'package:ucuzunu_bul/views/support_page.dart';
 
@@ -41,6 +43,14 @@ abstract class GetPages {
     GetPage(
       name: EditProfilePage.route,
       page: () => const EditProfilePage(),
+    ),
+    GetPage(
+      name: PurchaseHistoryPage.route,
+      page: () => const PurchaseHistoryPage(),
+    ),
+    GetPage(
+      name: "${ProductDetailPage.route}/:productId",
+      page: () => const ProductDetailPage(),
     ),
     GetPage(
       name: HomePage.route,

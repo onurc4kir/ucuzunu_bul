@@ -5,6 +5,7 @@ import 'package:ucuzunu_bul/components/user_coins_container.dart';
 import 'package:ucuzunu_bul/controllers/auth_controller.dart';
 import 'package:ucuzunu_bul/views/edit_profile_page.dart';
 import 'package:ucuzunu_bul/views/login_page.dart';
+import 'package:ucuzunu_bul/views/purchase_history_page.dart';
 import 'package:ucuzunu_bul/views/support_page.dart';
 
 import '../../components/custom_avatar_container.dart';
@@ -57,6 +58,12 @@ class ProfileTab extends GetView<AuthController> {
                       icon: const Icon(Icons.person),
                       title: "Profile Settings",
                       onTap: () => Get.toNamed(EditProfilePage.route),
+                    ),
+                    _buildListItem(
+                      context: context,
+                      icon: const Icon(Icons.shopping_bag),
+                      title: "Purchase History",
+                      onTap: () => Get.toNamed(PurchaseHistoryPage.route),
                     ),
                     _buildListItem(
                       context: context,
