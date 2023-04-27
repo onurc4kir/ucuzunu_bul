@@ -2,18 +2,18 @@ class BranchModel {
   BranchModel({
     required this.id,
     required this.name,
-    required this.adress,
-    required this.imageUrl,
-    required this.storeId,
-    required this.createdAt,
+     this.adress,
+     this.imageUrl,
+     this.storeId,
+     this.createdAt,
   });
 
   final String id;
   final String name;
-  final String adress;
-  final String imageUrl;
-  final String storeId;
-  final String createdAt;
+  final String? adress;
+  final String? imageUrl;
+  final String? storeId;
+  final String? createdAt;
 
   factory BranchModel.fromMap(Map<String, dynamic> json) => BranchModel(
         id: json["id"],

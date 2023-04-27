@@ -58,10 +58,11 @@ class HomeTab extends GetView<HomeExploreController> {
               child: Stack(
                 fit: StackFit.expand,
                 children: [
-                  CachedNetworkImage(
-                    imageUrl: store.imageUrl,
-                    fit: BoxFit.contain,
-                  ),
+                  if (store.imageUrl != null)
+                    CachedNetworkImage(
+                      imageUrl: store.imageUrl!,
+                      fit: BoxFit.contain,
+                    ),
                   Positioned(
                     bottom: 0.0,
                     left: 0.0,
@@ -113,7 +114,9 @@ class HomeTab extends GetView<HomeExploreController> {
         return Column(
           children: s.data?.map((e) {
                 return ListTile(
-                  onTap: () {},
+                  onTap: () {
+                    Get.toNamed("/product-detail/${e.id}");
+                  },
                   leading: CachedNetworkImage(
                     imageUrl: e.imageUrl,
                     fit: BoxFit.cover,
@@ -125,7 +128,7 @@ class HomeTab extends GetView<HomeExploreController> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        e.priceText,
+                        e.minPriceText,
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                         ),

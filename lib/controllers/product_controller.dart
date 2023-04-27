@@ -7,7 +7,12 @@ class ProductController extends GetxController {
 
   Future<ProductModel?> getProductById(String id) async {
     try {
-      return await _dbService.getProductById(id);
+      return await _dbService.getProductById(
+        id,
+        includePrices: true,
+        includeBranches: true,
+        includeStore: true,
+      );
     } catch (e) {
       printError(info: "ProductController GetProductById Error: $e");
     }

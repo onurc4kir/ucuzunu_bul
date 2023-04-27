@@ -97,7 +97,6 @@ class SupabaseDatabaseService {
         .order('created_at', ascending: false)
         .limit(10);
     if (data != null) {
-      printInfo(info: "SupabaseDatabaseService GetPopularBrands: $data");
       return data.map((e) => StoreModel.fromMap(e)).toList().cast<StoreModel>();
     } else {
       return [];
@@ -117,7 +116,6 @@ class SupabaseDatabaseService {
         .order('created_at', ascending: false)
         .limit(10);
     if (data != null) {
-      printInfo(info: "SupabaseDatabaseService GetPopularBrands: $data");
       return data
           .map((e) => ProductModel.fromMap(e))
           .toList()
@@ -163,15 +161,36 @@ class SupabaseDatabaseService {
     }
   }
 
- Future<ProductModel> getProductById(String id) async {
-  return await _database
-      .from(DatabaseContants.productsTable)
-      .select()
-      .eq('id', id)
-      .single()
-      .then((value) => ProductModel.fromMap(value));
+  Future<ProductModel> getProductById(
+    String id, {
+    bool includePrices = false,
+    bool includeBranches = false,
+    bool includeStore = false,
+  }) async {
+    const branchQuery = """branches(
+        id,
+        name,
+        latitude,
+        longitude
+        )""";
+    const storeQuery = """stores(
+        id,
+        name
+        )""";
+    final priceQuery = """prices(
+        id,
+        price
+        ${includeBranches ? ',$branchQuery' : ''}
+        ${includeStore ? ',$storeQuery' : ''}
+        )""";
 
- }
+    final data = await _database.from(DatabaseContants.productsTable).select("""
+          *
+          ${includePrices ? ',$priceQuery' : ''}
+          """).eq('id', id).single();
+    print(data);
+    return ProductModel.fromMap(data);
+  }
 
   Future<ProductModel> getProductByBarcode(id) async {
     return await _database
