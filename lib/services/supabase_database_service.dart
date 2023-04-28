@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:get/get_utils/get_utils.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as supa;
 import 'package:ucuzunu_bul/core/utilities/app_constants.dart';
+import 'package:ucuzunu_bul/models/branch_model.dart';
 import 'package:ucuzunu_bul/models/product_model.dart';
 import 'package:ucuzunu_bul/models/puchase_model.dart';
 import 'package:ucuzunu_bul/models/reward_model.dart';
@@ -229,6 +230,85 @@ class SupabaseDatabaseService {
     } catch (e) {
       printError(info: "SupabaseDatabaseService GetPurchases Error: $e");
       rethrow;
+    }
+  }
+
+  Future<StoreModel?> getStoreById(String id) async {
+    final data = await _database
+        .from(DatabaseContants.storesTable)
+        .select()
+        .eq('id', id)
+        .single();
+    if (data == null) {
+      return null;
+    }
+    return StoreModel.fromMap(data);
+  }
+
+  Future<List<ProductModel>> getProductsWithFilter({
+    int offset = 0,
+    int limit = 10,
+    String? branchId,
+    String? storeId,
+    bool sortByCreatedDate = true,
+    bool? isFeatured,
+  }) async {
+    supa.PostgrestFilterBuilder query =
+        _database.from(DatabaseContants.productsTable).select("""
+            *,
+            prices!inner(
+            id,
+            price,
+            store_id,
+            branch_id)
+            """);
+
+    if (branchId != null) {
+      query = query.eq('prices.branch_id', branchId);
+    }
+    if (storeId != null) {
+      query = query.eq('prices.store_id', storeId);
+    }
+    if (isFeatured != null) {
+      query = query.eq('is_featured', isFeatured);
+    }
+
+    final data = await query
+        .order('created_at', ascending: sortByCreatedDate)
+        .limit(limit)
+        .range(offset, offset * limit + offset);
+    if (data != null) {
+      return data
+          .map((e) => ProductModel.fromMap(e))
+          .toList()
+          .cast<ProductModel>();
+    } else {
+      return [];
+    }
+  }
+
+  Future<List<BranchModel>> getBranchesWithFilter({
+    int offset = 0,
+    int limit = 10,
+    String? storeId,
+    bool sortByCreatedDate = true,
+  }) async {
+    supa.PostgrestFilterBuilder query =
+        _database.from(DatabaseContants.branchesTable).select();
+
+    if (storeId != null) {
+      query = query.eq('store_id', storeId);
+    }
+
+    final data = await query.order('created_at', ascending: sortByCreatedDate);
+
+    if (data != null) {
+      return data
+          .map((e) => BranchModel.fromMap(e))
+          .toList()
+          .cast<BranchModel>();
+    } else {
+      return [];
     }
   }
 }

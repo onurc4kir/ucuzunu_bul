@@ -5,6 +5,7 @@ import 'package:ucuzunu_bul/components/custom_cached_image_container.dart';
 import 'package:ucuzunu_bul/components/custom_scaffold.dart';
 import 'package:ucuzunu_bul/controllers/product_controller.dart';
 import 'package:ucuzunu_bul/core/theme/colors.style.dart';
+import 'package:ucuzunu_bul/core/utilities/extensions.dart';
 import 'package:ucuzunu_bul/models/product_model.dart';
 
 class ProductDetailPage extends StatefulWidget {
@@ -78,68 +79,90 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
       );
     }
 
+    if (error != null) {
+      return Center(
+        child: Text(error!),
+      );
+    }
+
     if (product == null) {
       return const Center(
         child: Text("Product Not Found"),
       );
     }
 
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        AspectRatio(
-          aspectRatio: 1,
-          child: CustomCachedImageContainer(
-            imageUri: product?.imageUrl,
-            height: 100,
-            width: 100,
-          ),
-        ),
-        const SizedBox(height: 16),
-        Text(
-          product?.name ?? "no name",
-          style: const TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        if (product?.desc != null)
-          Text(
-            product?.desc ?? "no desc",
-            style: const TextStyle(
-              fontSize: 16,
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          AspectRatio(
+            aspectRatio: 1,
+            child: CustomCachedImageContainer(
+              imageUri: product?.imageUrl,
+              height: 100,
+              width: 100,
             ),
           ),
-        const SizedBox(height: 16),
-        Text(
-          "Prices",
-          style: Get.textTheme.titleLarge,
-        ),
-        const Divider(),
-        Column(
-          children: product?.prices
-                  .map(
-                    (e) => ListTile(
-                      onTap: () {
-                        //TODO: OPEN ON THE MAP
-                      },
-                      title: Text(e.branch?.name ?? "no branch"),
-                      subtitle: Text(e.store?.name ?? "no store"),
-                      trailing: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text(e.priceText),
-                          //TODO: ADD DISTANCE TO BRANCH
-                        ],
+          const SizedBox(height: 16),
+          Text(
+            product?.name ?? "no name",
+            style: const TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          if (product?.desc != null)
+            Text(
+              product?.desc ?? "no desc",
+              style: const TextStyle(
+                fontSize: 16,
+              ),
+            ),
+          const SizedBox(height: 16),
+          Text(
+            "Prices",
+            style: Get.textTheme.titleLarge,
+          ),
+          const Divider(),
+          Column(
+            children: product?.prices
+                    .map(
+                      (e) => ListTile(
+                        onTap: () {
+                          //TODO: OPEN ON THE MAP
+                        },
+                        title: Text(e.branch?.name ?? "no branch"),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(e.store?.name ?? "no store"),
+                            if (product?.createdAt != null)
+                              Text(
+                                product!.createdAt!.formattedDateForUIWithTime,
+                                style: TextStyle(
+                                  color: Colors.grey.shade500,
+                                ),
+                              )
+                          ],
+                        ),
+                        trailing: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(e.priceText),
+                            //TODO: ADD DISTANCE TO BRANCH
+                          ],
+                        ),
                       ),
-                    ),
-                  )
-                  .toList() ??
-              [],
-        ),
-      ],
+                    )
+                    .toList() ??
+                [],
+          ),
+        ],
+      ),
     );
   }
 
@@ -174,6 +197,14 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     fontSize: 13,
                   ),
                 ),
+                if (product?.createdAt != null)
+                  Text(
+                    product!.createdAt!.formattedDateForUIWithTime,
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.grey.shade700,
+                    ),
+                  )
               ],
             ),
             const Spacer(),

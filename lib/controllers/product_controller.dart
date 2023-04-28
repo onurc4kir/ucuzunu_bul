@@ -27,4 +27,27 @@ class ProductController extends GetxController {
     }
     return null;
   }
+
+  Future<List<ProductModel>> getProductsWithFilter({
+    int offset = 0,
+    int limit = 10,
+    String? branchId,
+    String? storeId,
+    bool sortByCreatedDate = true,
+    bool? isFeatured,
+  }) async {
+    try {
+      return await _dbService.getProductsWithFilter(
+        offset: offset,
+        limit: limit,
+        branchId: branchId,
+        storeId: storeId,
+        sortByCreatedDate: sortByCreatedDate,
+        isFeatured: isFeatured,
+      );
+    } catch (e) {
+      printError(info: "ProductController GetProductsWithFilter Error: $e");
+    }
+    return [];
+  }
 }
