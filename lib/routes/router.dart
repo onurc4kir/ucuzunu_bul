@@ -5,6 +5,7 @@ import 'package:ucuzunu_bul/controllers/home_explore_controller.dart';
 import 'package:ucuzunu_bul/controllers/product_controller.dart';
 import 'package:ucuzunu_bul/controllers/rewards_controller.dart';
 import 'package:ucuzunu_bul/controllers/search_controller.dart';
+import 'package:ucuzunu_bul/controllers/store_controller.dart';
 import 'package:ucuzunu_bul/views/edit_profile_page.dart';
 import 'package:ucuzunu_bul/views/forgot_password_page.dart';
 import 'package:ucuzunu_bul/views/home_page.dart';
@@ -13,6 +14,7 @@ import 'package:ucuzunu_bul/views/onboard_page.dart';
 import 'package:ucuzunu_bul/views/product_detail_page.dart';
 import 'package:ucuzunu_bul/views/purchase_history_page.dart';
 import 'package:ucuzunu_bul/views/register_page.dart';
+import 'package:ucuzunu_bul/views/store_detail_page.dart';
 import 'package:ucuzunu_bul/views/support_page.dart';
 
 abstract class GetPages {
@@ -53,11 +55,16 @@ abstract class GetPages {
       page: () => const ProductDetailPage(),
     ),
     GetPage(
+      name: "${StoreDetailPage.route}/:storeId",
+      page: () => const StoreDetailPage(),
+    ),
+    GetPage(
       name: HomePage.route,
       page: () => const HomePage(),
       binding: BindingsBuilder(() {
         Get.put(ProductController());
         Get.put(RewardsController());
+        Get.put(StoreController());
         Get.put(HomeController());
         Get.put(HomeExploreController());
         Get.put(SearchController());

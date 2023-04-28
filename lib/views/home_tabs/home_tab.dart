@@ -54,6 +54,9 @@ class HomeTab extends GetView<HomeExploreController> {
             final store = snapshot.data![index];
 
             return ExploreContainerListItem(
+              onTap: () {
+                Get.toNamed("/store-detail/${store.id}");
+              },
               width: 130,
               child: Stack(
                 fit: StackFit.expand,
