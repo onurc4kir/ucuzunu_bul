@@ -5,6 +5,7 @@ import 'package:ucuzunu_bul/components/custom_cached_image_container.dart';
 import 'package:ucuzunu_bul/components/custom_scaffold.dart';
 import 'package:ucuzunu_bul/controllers/product_controller.dart';
 import 'package:ucuzunu_bul/core/theme/colors.style.dart';
+import 'package:ucuzunu_bul/core/utilities/extensions.dart';
 import 'package:ucuzunu_bul/models/product_model.dart';
 
 class ProductDetailPage extends StatefulWidget {
@@ -125,7 +126,21 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         //TODO: OPEN ON THE MAP
                       },
                       title: Text(e.branch?.name ?? "no branch"),
-                      subtitle: Text(e.store?.name ?? "no store"),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(e.store?.name ?? "no store"),
+                          if (product?.createdAt != null)
+                            Text(
+                              product!.createdAt!.formattedDateForUIWithTime,
+                              style: TextStyle(
+                                color: Colors.grey.shade500,
+                              ),
+                            )
+                        ],
+                      ),
                       trailing: Column(
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.end,
@@ -174,6 +189,14 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     fontSize: 13,
                   ),
                 ),
+                if (product?.createdAt != null)
+                  Text(
+                    product!.createdAt!.formattedDateForUIWithTime,
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.grey.shade700,
+                    ),
+                  )
               ],
             ),
             const Spacer(),
