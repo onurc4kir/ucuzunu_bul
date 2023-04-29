@@ -161,7 +161,7 @@ class _StoreDetailPageState extends State<StoreDetailPage> {
                   itemBuilder: (c, i) {
                     final branch = branches[i];
                     return ListTile(
-                      title: Text(branch.name),
+                      title: Text(branch.name ?? "No Name"),
                       subtitle: Text(branch.adress ?? ""),
                     );
                   },

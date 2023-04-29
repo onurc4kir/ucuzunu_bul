@@ -1,5 +1,6 @@
 import 'package:get/instance_manager.dart';
 import 'package:get/route_manager.dart';
+import 'package:ucuzunu_bul/controllers/geolocator_controller.dart';
 import 'package:ucuzunu_bul/controllers/home_controller.dart';
 import 'package:ucuzunu_bul/controllers/home_explore_controller.dart';
 import 'package:ucuzunu_bul/controllers/product_controller.dart';
@@ -62,6 +63,7 @@ abstract class GetPages {
       name: HomePage.route,
       page: () => const HomePage(),
       binding: BindingsBuilder(() {
+        Get.put(GeolocatorController());
         Get.put(ProductController());
         Get.put(RewardsController());
         Get.put(StoreController());

@@ -18,7 +18,7 @@ class PriceModel {
   final String? productId;
   final String? storeId;
   final String? branchId;
-  final String? createdAt;
+  final DateTime? createdAt;
   final BranchModel? branch;
   final StoreModel? store;
 
@@ -28,18 +28,19 @@ class PriceModel {
         productId: json["product_id"],
         storeId: json["store_id"],
         branchId: json["branch_id"],
-        store: json['stores'] != null ? StoreModel.fromMap(json['stores']) : null,
-        branch: json['branches'] != null ? BranchModel.fromMap(json['branches']) : null,
-        createdAt: json["created_at"],
+        store:
+            json['stores'] != null ? StoreModel.fromMap(json['stores']) : null,
+        branch: json['branches'] != null
+            ? BranchModel.fromMap(json['branches'])
+            : null,
+        createdAt: DateTime.tryParse(json["created_at"] ?? ""),
       );
 
   Map<String, dynamic> toMap() => {
-        "id": id,
         "price": price,
         "product_id": productId,
         "store_id": storeId,
         "branch_id": branchId,
-        "created_at": createdAt,
       };
   String get priceText => "${price.toStringAsFixed(2)} ₺";
 }

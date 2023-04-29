@@ -3,9 +3,9 @@ import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:get/get.dart';
 import 'package:ucuzunu_bul/components/custom_scaffold.dart';
 import 'package:ucuzunu_bul/controllers/home_controller.dart';
-import 'package:ucuzunu_bul/controllers/search_controller.dart';
 import 'package:ucuzunu_bul/core/theme/colors.style.dart';
 import 'package:ucuzunu_bul/core/utilities/extensions.dart';
+import 'package:ucuzunu_bul/views/add_price_page.dart';
 
 class HomePage extends GetView<HomeController> {
   static const route = '/';
@@ -19,6 +19,12 @@ class HomePage extends GetView<HomeController> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: IColors.primary,
         onPressed: () async {
+          Get.to(
+            () => const AddPricePage(
+              productId: "5ba2285c-0630-4852-94fb-5fa3118be5e8",
+            ),
+          );
+          return;
           try {
             await FlutterBarcodeScanner.scanBarcode(
               '#ff6666',
@@ -27,11 +33,7 @@ class HomePage extends GetView<HomeController> {
               ScanMode.BARCODE,
             ).then((value) {
               if (value.isNotEmpty) {
-                //TODO: Open Add Product Page
-                
-
-
-
+                Get.to(() => AddPricePage(productId: value));
               }
             });
           } catch (e) {

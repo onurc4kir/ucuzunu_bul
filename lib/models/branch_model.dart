@@ -1,15 +1,15 @@
 class BranchModel {
   BranchModel({
     required this.id,
-    required this.name,
-     this.adress,
-     this.imageUrl,
-     this.storeId,
-     this.createdAt,
+    this.name,
+    this.adress,
+    this.imageUrl,
+    this.storeId,
+    this.createdAt,
   });
 
   final String id;
-  final String name;
+  final String? name;
   final String? adress;
   final String? imageUrl;
   final String? storeId;
