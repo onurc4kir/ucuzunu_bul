@@ -7,6 +7,7 @@ import 'package:ucuzunu_bul/controllers/product_controller.dart';
 import 'package:ucuzunu_bul/core/theme/colors.style.dart';
 import 'package:ucuzunu_bul/core/utilities/extensions.dart';
 import 'package:ucuzunu_bul/models/product_model.dart';
+import 'package:ucuzunu_bul/views/support_page.dart';
 
 class ProductDetailPage extends StatefulWidget {
   static const String route = "/product-detail";
@@ -62,6 +63,12 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   Widget build(BuildContext context) {
     return CustomScaffold(
       title: "Product Detail",
+      trailing: IconButton(
+        onPressed: () {
+          Get.toNamed(SupportPage.route);
+        },
+        icon: const Icon(Icons.report_problem),
+      ),
       body: _buildProductDetail(),
       bottomNavigationBar: _buildBottomBar(),
     );
@@ -139,9 +146,9 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Text(e.store?.name ?? "no store"),
-                            if (product?.createdAt != null)
+                            if (e.createdAt != null)
                               Text(
-                                product!.createdAt!.formattedDateForUIWithTime,
+                                e.createdAt!.formattedDateForUIWithTime,
                                 style: TextStyle(
                                   color: Colors.grey.shade500,
                                 ),
