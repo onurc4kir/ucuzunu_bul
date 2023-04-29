@@ -105,16 +105,21 @@ class SupabaseDatabaseService {
     }
   }
 
-  Future<List<ProductModel>> getFeaturedProducts() async {
+  Future<List<ProductModel>> getFeaturedProducts({String? geoHash}) async {
     final data = await _database
         .from(DatabaseContants.productsTable)
-        .select("""*,prices(
+        .select("""*,prices!inner(
         id,
         price,
         store_id,
-        branch_id
+        branch_id,
+        created_at,
+        branches!inner(
+        id,
+        geohash)
         )""")
         .eq('is_featured', true)
+        .like("prices.branches.geohash", geoHash != null ? "$geoHash%" : "%")
         .order('created_at', ascending: false)
         .limit(10);
     if (data != null) {
@@ -165,9 +170,11 @@ class SupabaseDatabaseService {
 
   Future<ProductModel> getProductById(
     String id, {
+    bool isBarcode = false,
     bool includePrices = false,
     bool includeBranches = false,
     bool includeStore = false,
+    String? geoHash,
   }) async {
     const branchQuery = """branches(
         id,
@@ -181,25 +188,22 @@ class SupabaseDatabaseService {
         )""";
     final priceQuery = """prices(
         id,
-        price
+        price,
+        created_at
         ${includeBranches ? ',$branchQuery' : ''}
         ${includeStore ? ',$storeQuery' : ''}
         )""";
 
-    final data = await _database.from(DatabaseContants.productsTable).select("""
+    final data = await _database
+        .from(DatabaseContants.productsTable)
+        .select("""
           *
           ${includePrices ? ',$priceQuery' : ''}
-          """).eq('id', id).single();
+          """)
+        .like("prices.branches.geohash", geoHash != null ? "$geoHash%" : "%")
+        .eq(isBarcode ? 'barcode' : 'id', id)
+        .single();
     return ProductModel.fromMap(data);
-  }
-
-  Future<ProductModel> getProductByBarcode(id) async {
-    return await _database
-        .from(DatabaseContants.productsTable)
-        .select()
-        .eq('barcode', id)
-        .single()
-        .then((value) => ProductModel.fromMap(value));
   }
 
   Future<void> buyReward({
@@ -255,11 +259,12 @@ class SupabaseDatabaseService {
   }) async {
     supa.PostgrestFilterBuilder query =
         _database.from(DatabaseContants.productsTable).select("""
-            *,
+            select distinct on (products) *,
             prices!inner(
             id,
             price,
             store_id,
+            created_at,
             branch_id)
             """);
 
@@ -292,12 +297,17 @@ class SupabaseDatabaseService {
     int limit = 10,
     String? storeId,
     bool sortByCreatedDate = true,
+    String? geohash,
   }) async {
+    printInfo(info: "geohash: $geohash");
     supa.PostgrestFilterBuilder query =
         _database.from(DatabaseContants.branchesTable).select();
 
     if (storeId != null) {
       query = query.eq('store_id', storeId);
+    }
+    if (geohash != null) {
+      query = query.like('geohash', "$geohash%");
     }
 
     final data = await query.order('created_at', ascending: sortByCreatedDate);
@@ -310,5 +320,21 @@ class SupabaseDatabaseService {
     } else {
       return [];
     }
+  }
+
+  Future<void> addPrice({
+    required String productId,
+    required String branchId,
+    required double price,
+    required String userId,
+    String? storeId,
+  }) async {
+    return await _database.from(DatabaseContants.pricesTable).insert({
+      'product_id': productId,
+      'branch_id': branchId,
+      'store_id': storeId,
+      'price': price,
+      'user_id': userId,
+    });
   }
 }
