@@ -21,4 +21,5 @@ abstract class DatabaseContants {
   static const String storesTable = "stores";
   static const String notificationsTabke = "notifications";
   static const String purchaseTable = "purchases";
+  static const String supportTable = "support_tickets";
 }

@@ -7,6 +7,7 @@ import 'package:ucuzunu_bul/models/product_model.dart';
 import 'package:ucuzunu_bul/models/puchase_model.dart';
 import 'package:ucuzunu_bul/models/reward_model.dart';
 import 'package:ucuzunu_bul/models/store_model.dart';
+import 'package:ucuzunu_bul/models/support_ticket_model.dart';
 
 import '../models/user_model.dart';
 
@@ -336,5 +337,11 @@ class SupabaseDatabaseService {
       'price': price,
       'user_id': userId,
     });
+  }
+
+  Future<void> createSupportTicket(SupportTicketModel support) {
+    return _database
+        .from(DatabaseContants.supportTable)
+        .insert(support.toMap());
   }
 }
