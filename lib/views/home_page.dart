@@ -19,12 +19,6 @@ class HomePage extends GetView<HomeController> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: IColors.primary,
         onPressed: () async {
-          Get.to(
-            () => const AddPricePage(
-              productId: "5ba2285c-0630-4852-94fb-5fa3118be5e8",
-            ),
-          );
-          return;
           try {
             await FlutterBarcodeScanner.scanBarcode(
               '#ff6666',
