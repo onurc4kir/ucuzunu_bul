@@ -1,4 +1,5 @@
 import 'package:ucuzunu_bul/models/branch_model.dart';
+import 'package:ucuzunu_bul/models/product_model.dart';
 import 'package:ucuzunu_bul/models/store_model.dart';
 
 class PriceModel {
@@ -10,6 +11,7 @@ class PriceModel {
     this.branchId,
     this.branch,
     this.store,
+    this.product,
     this.createdAt,
   });
 
@@ -21,6 +23,7 @@ class PriceModel {
   final DateTime? createdAt;
   final BranchModel? branch;
   final StoreModel? store;
+  final ProductModel? product;
 
   factory PriceModel.fromMap(Map<String, dynamic> json) => PriceModel(
         id: json["id"],
@@ -32,6 +35,9 @@ class PriceModel {
             json['stores'] != null ? StoreModel.fromMap(json['stores']) : null,
         branch: json['branches'] != null
             ? BranchModel.fromMap(json['branches'])
+            : null,
+        product: json['products'] != null
+            ? ProductModel.fromMap(json['products'])
             : null,
         createdAt: DateTime.tryParse(json["created_at"] ?? ""),
       );
