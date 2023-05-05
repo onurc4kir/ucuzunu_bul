@@ -18,6 +18,8 @@ import 'package:ucuzunu_bul/views/register_page.dart';
 import 'package:ucuzunu_bul/views/store_detail_page.dart';
 import 'package:ucuzunu_bul/views/support_page.dart';
 
+import '../views/user_price_history.dart';
+
 abstract class GetPages {
   static const String initialRoute = OnboardPage.route;
   static const String unknownRoute = LoginPage.route;
@@ -58,6 +60,10 @@ abstract class GetPages {
     GetPage(
       name: "${StoreDetailPage.route}/:storeId",
       page: () => const StoreDetailPage(),
+    ),
+    GetPage(
+      name: UserPriceHistory.route,
+      page: () => const UserPriceHistory(),
     ),
     GetPage(
       name: HomePage.route,

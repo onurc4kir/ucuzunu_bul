@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:ucuzunu_bul/core/utilities/dialog_helper.dart';
+import 'package:ucuzunu_bul/models/price_model.dart';
 import 'package:ucuzunu_bul/models/product_model.dart';
 import 'package:ucuzunu_bul/services/supabase_database_service.dart';
 
@@ -44,6 +46,20 @@ class ProductController extends GetxController {
       );
     } catch (e) {
       printError(info: "ProductController GetProductsWithFilter Error: $e");
+    }
+    return [];
+  }
+
+  Future<List<PriceModel>> getPricesAddedByUser(String id) async {
+    try {
+      return await _dbService.getPricesAddedByUser(id);
+    } catch (e) {
+      DialogHelper.showErrorDialog(
+        context: Get.context!,
+        title: "Hata",
+        description: "Fiyatlar getirilirken bir hata oluştu.",
+      );
+      printError(info: "ProductController GetPricesAddedByUser Error: $e");
     }
     return [];
   }
