@@ -28,6 +28,7 @@ class HomeTab extends GetView<HomeExploreController> {
             ),
             ExploreListContainer(
               title: "Featured Products",
+              isShowAllTapButton: false,
               child: _buildFeaturedProducts(),
             )
           ],
