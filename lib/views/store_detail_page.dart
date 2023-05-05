@@ -189,8 +189,10 @@ class _StoreDetailPageState extends State<StoreDetailPage> {
         ),
         const Divider(),
         FutureBuilder(
-            future: Get.find<ProductController>()
-                .getProductsWithFilter(storeId: store!.id),
+            future: Get.find<ProductController>().getProductsWithFilter(
+              storeId: store!.id,
+              limit: 3,
+            ),
             builder: (c, s) {
               if (s.connectionState == ConnectionState.waiting) {
                 return SkeletonParagraph();
