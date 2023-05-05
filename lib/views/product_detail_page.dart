@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 import 'package:skeletons/skeletons.dart';
 import 'package:ucuzunu_bul/components/custom_cached_image_container.dart';
 import 'package:ucuzunu_bul/components/custom_scaffold.dart';
@@ -137,7 +138,13 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     .map(
                       (e) => ListTile(
                         onTap: () {
-                          //TODO: OPEN ON THE MAP
+                          if (e.branch?.latitude != null &&
+                              e.branch?.longitude != null) {
+                            MapsLauncher.launchCoordinates(
+                                e.branch!.latitude!, e.branch!.longitude!);
+                          } else {
+                            Get.snackbar("Error", "Branch Location Not Found");
+                          }
                         },
                         title: Text(e.branch?.name ?? "no branch"),
                         subtitle: Column(
@@ -225,7 +232,16 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               ),
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                if (product?.minPriceModel?.branch?.latitude != null &&
+                    product?.minPriceModel?.branch?.longitude != null) {
+                  MapsLauncher.launchCoordinates(
+                      product!.minPriceModel!.branch!.latitude!,
+                      product!.minPriceModel!.branch!.longitude!);
+                } else {
+                  Get.snackbar("Error", "Branch Location Not Found");
+                }
+              },
               icon: const Icon(
                 Icons.arrow_forward_ios,
               ),

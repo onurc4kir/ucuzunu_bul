@@ -23,6 +23,8 @@ dependencies:
   flutter_svg: ^2.0.4
   dart_geohash: ^2.0.2
   geolocator: ^9.0.2
+  url_launcher: ^6.1.10
+  maps_launcher: ^2.2.0
 
 dev_dependencies:
   flutter_test:

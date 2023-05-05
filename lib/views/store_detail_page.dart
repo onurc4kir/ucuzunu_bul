@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 import 'package:skeletons/skeletons.dart';
 import 'package:ucuzunu_bul/components/custom_scaffold.dart';
 import 'package:ucuzunu_bul/controllers/product_controller.dart';
@@ -161,6 +162,15 @@ class _StoreDetailPageState extends State<StoreDetailPage> {
                   itemBuilder: (c, i) {
                     final branch = branches[i];
                     return ListTile(
+                      onTap: () {
+                        if (branch.latitude != null &&
+                            branch.longitude != null) {
+                          MapsLauncher.launchCoordinates(
+                              branch.latitude!, branch.longitude!);
+                        } else {
+                          Get.snackbar("Error", "Branch Location Not Found");
+                        }
+                      },
                       title: Text(branch.name ?? "No Name"),
                       subtitle: Text(branch.adress ?? ""),
                     );
