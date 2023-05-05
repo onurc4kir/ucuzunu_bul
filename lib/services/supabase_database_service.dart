@@ -3,6 +3,7 @@ import 'package:get/get_utils/get_utils.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as supa;
 import 'package:ucuzunu_bul/core/utilities/app_constants.dart';
 import 'package:ucuzunu_bul/models/branch_model.dart';
+import 'package:ucuzunu_bul/models/price_model.dart';
 import 'package:ucuzunu_bul/models/product_model.dart';
 import 'package:ucuzunu_bul/models/puchase_model.dart';
 import 'package:ucuzunu_bul/models/reward_model.dart';
@@ -260,7 +261,7 @@ class SupabaseDatabaseService {
   }) async {
     supa.PostgrestFilterBuilder query =
         _database.from(DatabaseContants.productsTable).select("""
-            select distinct on (products) *,
+            *,
             prices!inner(
             id,
             price,
@@ -280,9 +281,9 @@ class SupabaseDatabaseService {
     }
 
     final data = await query
-        .order('created_at', ascending: sortByCreatedDate)
+        .order('created_at', ascending: !sortByCreatedDate)
         .limit(limit)
-        .range(offset, offset * limit + offset);
+        .range(offset * limit, (offset * limit) + limit);
     if (data != null) {
       return data
           .map((e) => ProductModel.fromMap(e))
@@ -343,5 +344,18 @@ class SupabaseDatabaseService {
     return _database
         .from(DatabaseContants.supportTable)
         .insert(support.toMap());
+  }
+
+  Future<List<PriceModel>> getPricesAddedByUser(String userId) async {
+    final data = await _database.from(DatabaseContants.pricesTable).select("""
+          *,
+          products(id,name,desc,barcode,created_at,image_url)
+        """).eq('user_id', userId);
+
+    if (data != null) {
+      return data.map((e) => PriceModel.fromMap(e)).toList().cast<PriceModel>();
+    } else {
+      return [];
+    }
   }
 }
