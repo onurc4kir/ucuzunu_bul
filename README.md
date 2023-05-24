@@ -1,16 +1,32 @@
-# ucuzunu_bul
+# ucuzunu-bul Ucuzu Bul Merkezi Ürün Yönetim Sistemi
 
-A new Flutter project.
+Üsküdar Üniversitesi Bilgisayar Mühendisliği Bitirme Tezi Projesi
 
-## Getting Started
+## Kullanılan Teknolojiler - Tech Stack
+- Flutter
+- Supabase
+- Postgresql
 
-This project is a starting point for a Flutter application.
+## Yükleme İşlemleri - Installation
+- Uygulamayı yerel makinenizde çalıştırmak için Flutter SDK'si yüklü olmalıdır.
+- Repoyu klonladıktan sonra ana klasörde .env dosyası oluşturup aşağıda ki anahtarlar eklenmelidir.
 
-A few resources to get you started if this is your first Flutter project:
+```.env
+SUPA_URL = YOUR_URL
+SUPABASE_ANON_KEY = YOUR_KEY
+```
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Veritabanı - Database
+Veritabanı şemasını ve gerekli fonksiyonları 'database' klasörü altındaki 'schema.sql' dosyasında bulabilirsiniz.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Veritabanını görselleştirmek için https://supabase-schema.vercel.app/ web sitesini kullanabilirsiniz.
+
+## Profil Ayarları, Ürün Aratma, Market Listeleme, En Ucuz Ürün Kontrolü
+https://user-images.githubusercontent.com/44505985/233619266-c619c9b6-a904-4715-95ac-1701675eb482.mp4
+
+
+## Ürün Ekleme, Barcode Scanner, Rewards Sayfası
+https://user-images.githubusercontent.com/44505985/233619281-66b364ce-83fd-4176-b810-5e0c097fdda0.mp4
+
+## Veritabanı Şeması
+![](../../School/Graduation Thesis/Materials-Figures/Supbase Schema.png)
