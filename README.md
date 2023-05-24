@@ -22,4 +22,4 @@ Veritabanı şemasını ve gerekli fonksiyonları 'database' klasörü altındak
 Veritabanını görselleştirmek için https://supabase-schema.vercel.app/ web sitesini kullanabilirsiniz.
 
 ## Veritabanı Şeması
-![](../../School/Graduation Thesis/Materials-Figures/Supbase Schema.png)
+![Supbase Schema](https://github.com/onurc4kir/ucuzunu_bul/assets/88238748/8deec1de-5d24-4a02-8fbb-38e5a1389d03)
