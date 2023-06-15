@@ -80,7 +80,7 @@ class _AddPricePageState extends State<AddPricePage> {
               try {
                 await Get.find<StoreController>()
                     .addPrice(
-                      productId: widget.productId,
+                      productId: product!.id,
                       branchId: branchId!,
                       price: price!,
                       storeId:
