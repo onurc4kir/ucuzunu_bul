@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:ucuzunu_bul/components/custom_input_area.dart';
 import 'package:ucuzunu_bul/components/custom_scaffold.dart';
 import 'package:ucuzunu_bul/controllers/search_controller.dart';
+import 'package:ucuzunu_bul/views/product_detail_page.dart';
 
 class SearchTab extends StatefulWidget {
   const SearchTab({super.key});
@@ -112,50 +113,53 @@ class _SearchTabState extends State<SearchTab> {
           ),
           itemBuilder: (c, i) {
             final item = controller.products[i];
-            return Card(
-              clipBehavior: Clip.hardEdge,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15.0),
-              ),
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  CachedNetworkImage(
-                    imageUrl: item.imageUrl,
-                  ),
-                  Positioned(
-                    bottom: 0.0,
-                    left: 0.0,
-                    right: 0.0,
-                    child: Container(
-                      decoration: const BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            Color.fromARGB(240, 0, 0, 0),
-                            Color.fromARGB(0, 0, 0, 0)
-                          ],
-                          begin: Alignment.bottomCenter,
-                          end: Alignment.topCenter,
+            return GestureDetector(
+              onTap: () => Get.toNamed("${ProductDetailPage.route}/${item.id}"),
+              child: Card(
+                clipBehavior: Clip.hardEdge,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0),
+                ),
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    CachedNetworkImage(
+                      imageUrl: item.imageUrl,
+                    ),
+                    Positioned(
+                      bottom: 0.0,
+                      left: 0.0,
+                      right: 0.0,
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Color.fromARGB(240, 0, 0, 0),
+                              Color.fromARGB(0, 0, 0, 0)
+                            ],
+                            begin: Alignment.bottomCenter,
+                            end: Alignment.topCenter,
+                          ),
                         ),
-                      ),
-                      padding: const EdgeInsets.only(
-                        top: 16,
-                        left: 8,
-                        right: 8,
-                        bottom: 4,
-                      ),
-                      child: Text(
-                        item.name,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 14.0,
-                          letterSpacing: 4,
-                          fontWeight: FontWeight.w300,
+                        padding: const EdgeInsets.only(
+                          top: 16,
+                          left: 8,
+                          right: 8,
+                          bottom: 4,
+                        ),
+                        child: Text(
+                          item.name,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 14.0,
+                            letterSpacing: 4,
+                            fontWeight: FontWeight.w300,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             );
           },

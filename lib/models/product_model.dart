@@ -16,7 +16,7 @@ class ProductModel {
   final String desc;
   final String imageUrl;
   final String barcode;
-  final String createdAt;
+  final DateTime? createdAt;
   final List<PriceModel> prices;
 
   factory ProductModel.fromMap(Map<String, dynamic> json) => ProductModel(
@@ -25,7 +25,7 @@ class ProductModel {
         desc: json["desc"],
         imageUrl: json["image_url"],
         barcode: json["barcode"],
-        createdAt: json["created_at"],
+        createdAt: DateTime.tryParse(json["created_at"] ?? ""),
         prices: json["prices"] is List
             ? (json["prices"] as List)
                 .map((e) => PriceModel.fromMap(e))

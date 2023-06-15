@@ -1,6 +1,21 @@
+import 'package:intl/intl.dart';
 import 'package:ucuzunu_bul/components/custom_shaped_button.dart';
 import 'package:flutter/material.dart';
 
+
+extension DateExtension on DateTime {
+  String get formattedDateForQuery {
+    return DateFormat('MM-dd-yyyy').format(this);
+  }
+
+  String get formattedDateForUI {
+    return DateFormat('dd/MM/yyyy').format(this);
+  }
+
+  String get formattedDateForUIWithTime {
+    return DateFormat('dd/MM/yyyy HH:mm').format(toLocal());
+  }
+}
 extension ContextExtension on BuildContext {
   showSnackBarWithAction(
       {required String message,

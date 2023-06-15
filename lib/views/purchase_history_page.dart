@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:ucuzunu_bul/components/custom_scaffold.dart';
 import 'package:ucuzunu_bul/controllers/rewards_controller.dart';
 import 'package:ucuzunu_bul/models/puchase_model.dart';
+import 'package:ucuzunu_bul/core/utilities/extensions.dart';
 
 class PurchaseHistoryPage extends StatelessWidget {
   static const String route = "/purchase-history";
@@ -35,7 +36,20 @@ class PurchaseHistoryPage extends StatelessWidget {
               return ListTile(
                 onTap: () {},
                 title: Text(purchase.reward?.name ?? ""),
-                subtitle: _buildPurchaseDesc(purchase),
+                subtitle: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildPurchaseDesc(purchase),
+                    const SizedBox(height: 2),
+                    Text(
+                      purchase.createdAt?.formattedDateForUIWithTime ?? "",
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.grey.shade500,
+                      ),
+                    ),
+                  ],
+                ),
                 trailing: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
