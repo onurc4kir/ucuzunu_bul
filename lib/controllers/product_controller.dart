@@ -20,6 +20,7 @@ class ProductController extends GetxController {
         includePrices: includePrices,
         includeBranches: includeBranches,
         includeStore: includeStore,
+        isBarcode: isBarcode,
       );
     } catch (e) {
       printError(info: "ProductController GetProductById Error: $e");

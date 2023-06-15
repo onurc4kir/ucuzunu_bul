@@ -27,7 +27,11 @@ class HomePage extends GetView<HomeController> {
               ScanMode.BARCODE,
             ).then((value) {
               if (value.isNotEmpty) {
-                Get.to(() => AddPricePage(productId: value));
+                print("Barcode Search Value: $value");
+                Get.to(() => AddPricePage(
+                      productId: value,
+                      isBarcode: true,
+                    ));
               }
             });
           } catch (e) {
