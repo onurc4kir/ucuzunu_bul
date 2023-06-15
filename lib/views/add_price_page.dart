@@ -52,10 +52,11 @@ class _AddPricePageState extends State<AddPricePage> {
         includeStore: false,
         includeBranches: true,
       );
-      branches = await  Get.find<StoreController>().getBranchesWithFilter(
+      branches = await Get.find<StoreController>().getBranchesWithFilter(
         limit: 5,
-        geohash: Get.find<GeolocatorController>().getGeoHash()?.substring(0, 6),
+        geohash: Get.find<GeolocatorController>().getGeoHash()?.substring(0, 2),
       );
+      printInfo(info: "Branches: ${branches.length}");
     } catch (e) {
       error = e.toString();
     } finally {

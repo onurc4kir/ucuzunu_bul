@@ -18,6 +18,7 @@ class StoreController extends GetxController {
       String? storeId,
       bool sortByCreatedDate = true,
       String? geohash}) async {
+    printInfo(info: "StoreController getBranchesWithFilter: $geohash");
     return await _dbService.getBranchesWithFilter(
         offset: offset,
         limit: limit,
